@@ -29,10 +29,10 @@ Following Linters are used internally by super linter (enabled for this project)
 - XML: [LibXML](http://xmlsoft.org/)
 - Kotlin: [ktlint](https://github.com/pinterest/ktlint)
 
-## [`Koin`](https://insert-koin.io/) DI Version 🗡️
-If you want to use *Koin - Dependency Injection framework* in app then visit below repository.
+## [`Dagger-Hilt`](https://dagger.dev/hilt/) DI Version 🗡️
+If you want to use *Dagger Hilt - Dependency Injection framework* in app then visit below repository.
 
-**Contributed By:** [Kelvin Kioko - Alphaset Africa](https://github.com/kelvinkioko/)
+**Contributed By:** [Kelvin Kioko](https://github.com/kelvinkioko/)
 
 ## Contact
 If you need any help, you can connect with me.
