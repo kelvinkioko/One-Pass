@@ -11,6 +11,64 @@
         android:id="@+id/onBoardingFragment"
         android:name="xml.one.pass.presentation.welcome.WelcomeFragment"
         android:label="Welcome fragment"
-        tools:layout="@layout/welcome_fragment" />
+        tools:layout="@layout/welcome_fragment" >
+        <action
+            android:id="@+id/toRegisterFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/toLoginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="xml.one.pass.presentation.login.LoginFragment"
+        android:label="Login fragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/toRegisterFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/toForgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/toHomeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="xml.one.pass.presentation.register.RegisterFragment"
+        android:label="Register fragment"
+        tools:layout="@layout/register_fragment" >
+        <action
+            android:id="@+id/toLoginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/toHomeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="xml.one.pass.presentation.forgot_password.ForgotPasswordFragment"
+        android:label="Forgot password fragment"
+        tools:layout="@layout/forgot_password_fragment" >
+        <action
+            android:id="@+id/toResetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="xml.one.pass.presentation.reset_password.ResetPasswordFragment"
+        android:label="Reset password fragment"
+        tools:layout="@layout/reset_password_fragment" />
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="xml.one.pass.presentation.home.HomeFragment"
+        android:label="Home fragment"
+        tools:layout="@layout/home_fragment" />
 
 </navigation>

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import xml.one.pass.R
 import xml.one.pass.databinding.WelcomeFragmentBinding
 import xml.one.pass.extension.viewBinding
@@ -26,11 +27,21 @@ class WelcomeFragment : Fragment(R.layout.welcome_fragment) {
     }
 
     private fun setUpOnClickListener() {
-        binding.welcomeTitle.setOnClickListener {
-            if (currentStep < 2) {
-                currentStep++
-                setUpStep()
-                setUpWelcomeTitleManager()
+        binding.apply {
+            welcomeTitle.setOnClickListener {
+                if (currentStep < 2) {
+                    currentStep++
+                    setUpStep()
+                    setUpWelcomeTitleManager()
+                }
+            }
+
+            registerAction.setOnClickListener {
+                findNavController().navigate(WelcomeFragmentDirections.toRegisterFragment())
+            }
+
+            loginAction.setOnClickListener {
+                findNavController().navigate(WelcomeFragmentDirections.toLoginFragment())
             }
         }
     }

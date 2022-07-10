@@ -122,10 +122,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:hint="@string/search_websites"
         android:letterSpacing="0.07"
         app:startIconDrawable="@drawable/ic_symbol_search"
         app:hintEnabled="false"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_symbol_delete"
+        app:endIconContentDescription="Search delete icon"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintTop_toBottomOf="@+id/storedCard"
         app:layout_constraintStart_toStartOf="@id/guidelineStart" >
@@ -137,7 +139,7 @@
             android:letterSpacing="0.07"
             android:singleLine="true"
             android:drawableEnd="@drawable/ic_symbol_delete"
-            tools:text="stanarphar@gmail.com" />
+            android:hint="@string/search_websites" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
