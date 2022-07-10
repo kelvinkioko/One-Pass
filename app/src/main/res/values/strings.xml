@@ -57,4 +57,6 @@
     <string name="welcome_two_description">Store and manage all of your passwords from one place. Don’t remember hundreds of passwords, just remember one.</string>
     <string name="welcome_three_title">Don’t type, autofill your credentials.</string>
     <string name="welcome_three_description">Don’t compromise your passwords by typing them in public, let OnePass autofill those and keep your credentials secure.</string>
+    <string name="forgot_password_guide">Let’s get you setup with a new account!</string>
+    <string name="submit">SUBMIT</string>
 </resources>

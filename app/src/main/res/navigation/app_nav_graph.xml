@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/onBoardingFragment"
+    android:id="@+id/app_nav_graph"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="xml.one.pass.presentation.welcome.WelcomeFragment"
+        android:label="Welcome fragment"
+        tools:layout="@layout/welcome_fragment" />
+
+</navigation>
