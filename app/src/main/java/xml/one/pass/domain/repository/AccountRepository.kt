@@ -11,9 +11,11 @@ interface AccountRepository {
 
     suspend fun loadAccount(): AccountModel
 
-    fun areThereAccounts(): Boolean
+    suspend fun areThereAccounts(): Boolean
 
-    fun doesAccountExistWithEmail(email: String): Boolean
+    suspend fun doesAccountExistWithEmail(email: String): Boolean
+
+    suspend fun doesAccountExistWithEmailAndPassword(email: String, password: String): Boolean
 
     suspend fun deleteAccount()
 }

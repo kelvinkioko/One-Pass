@@ -26,6 +26,9 @@ interface AccountDao {
     @Query("SELECT COUNT(id) FROM account WHERE email =:email")
     fun doesAccountExistWithEmail(email: String): Int
 
+    @Query("SELECT COUNT(id) FROM account WHERE email =:email AND password =:password")
+    fun doesAccountExistWithEmailAndPassword(email: String, password: String): Int
+
     @Query("DELETE FROM account")
     suspend fun deleteAccount()
 }

@@ -37,11 +37,19 @@ class AccountRepositoryImpl @Inject constructor(
         return accountDao.loadAccount().mapToAccountModel()
     }
 
-    override fun areThereAccounts(): Boolean =
+    override suspend fun areThereAccounts(): Boolean =
         accountDao.areThereAccounts() > 0
 
-    override fun doesAccountExistWithEmail(email: String): Boolean =
+    override suspend fun doesAccountExistWithEmail(email: String): Boolean =
         accountDao.doesAccountExistWithEmail(email = email) > 0
+
+    override suspend fun doesAccountExistWithEmailAndPassword(
+        email: String,
+        password: String
+    ): Boolean = accountDao.doesAccountExistWithEmailAndPassword(
+        email = email,
+        password = password
+    ) > 0
 
     override suspend fun deleteAccount() {
         accountDao.deleteAccount()

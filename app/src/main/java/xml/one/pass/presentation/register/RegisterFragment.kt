@@ -117,9 +117,4 @@ class RegisterFragment : Fragment(R.layout.register_fragment) {
         super.onPause()
         removeInputListener()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        removeInputListener()
-    }
 }
