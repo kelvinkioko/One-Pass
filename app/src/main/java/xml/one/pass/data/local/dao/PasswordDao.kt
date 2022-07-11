@@ -9,7 +9,7 @@ import xml.one.pass.data.local.entity.PasswordEntity
 @Dao
 interface PasswordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPassword(accountEntity: PasswordEntity)
+    suspend fun insertPassword(passwordEntity: PasswordEntity)
 
     @Query(
         "UPDATE password SET " +

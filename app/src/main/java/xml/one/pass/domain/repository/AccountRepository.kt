@@ -1,15 +1,19 @@
 package xml.one.pass.domain.repository
 
-import xml.one.pass.data.local.entity.AccountEntity
+import xml.one.pass.domain.model.AccountModel
 
 interface AccountRepository {
-    suspend fun insertAccount(accountEntity: AccountEntity)
+    suspend fun insertAccount(name: String, email: String, password: String)
 
     suspend fun updateAccountName(name: String, id: Int): Int
 
     suspend fun updateAccountPassword(password: String, id: Int): Int
 
-    suspend fun loadAccount(): List<AccountEntity>
+    suspend fun loadAccount(): AccountModel
+
+    fun areThereAccounts(): Boolean
+
+    fun doesAccountExistWithEmail(email: String): Boolean
 
     suspend fun deleteAccount()
 }

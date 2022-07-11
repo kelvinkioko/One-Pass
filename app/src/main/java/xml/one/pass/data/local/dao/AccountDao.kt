@@ -18,7 +18,13 @@ interface AccountDao {
     suspend fun updateAccountPassword(password: String, id: Int): Int
 
     @Query("SELECT * FROM account")
-    suspend fun loadAccount(): List<AccountEntity>
+    suspend fun loadAccount(): AccountEntity
+
+    @Query("SELECT COUNT(id) FROM account")
+    fun areThereAccounts(): Int
+
+    @Query("SELECT COUNT(id) FROM account WHERE email =:email")
+    fun doesAccountExistWithEmail(email: String): Int
 
     @Query("DELETE FROM account")
     suspend fun deleteAccount()

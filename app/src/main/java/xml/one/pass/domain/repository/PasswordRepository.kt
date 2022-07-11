@@ -3,7 +3,7 @@ package xml.one.pass.domain.repository
 import xml.one.pass.data.local.entity.PasswordEntity
 
 interface PasswordRepository {
-    suspend fun insertPassword(accountEntity: PasswordEntity)
+    suspend fun insertPassword(passwordEntity: PasswordEntity)
 
     suspend fun updatePasswordDetails(
         id: Int,

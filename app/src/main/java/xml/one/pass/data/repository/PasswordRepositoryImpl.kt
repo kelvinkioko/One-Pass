@@ -1,14 +1,20 @@
 package xml.one.pass.data.repository
 
-import xml.one.pass.data.local.dao.PasswordDao
+import xml.one.pass.data.local.OnePassDatabase
 import xml.one.pass.data.local.entity.PasswordEntity
 import xml.one.pass.domain.repository.PasswordRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class PasswordRepositoryImpl(
-    private val passwordDao: PasswordDao
+@Singleton
+class PasswordRepositoryImpl @Inject constructor(
+    onePassDatabase: OnePassDatabase
 ) : PasswordRepository {
-    override suspend fun insertPassword(accountEntity: PasswordEntity) {
-        passwordDao.insertPassword(accountEntity = accountEntity)
+
+    private val passwordDao = onePassDatabase.passwordDao()
+
+    override suspend fun insertPassword(passwordEntity: PasswordEntity) {
+        passwordDao.insertPassword(passwordEntity = passwordEntity)
     }
 
     override suspend fun updatePasswordDetails(

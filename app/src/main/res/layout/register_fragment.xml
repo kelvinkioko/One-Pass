@@ -61,7 +61,6 @@
             android:inputType="textCapWords"
             android:letterSpacing="0.07"
             android:singleLine="true"
-            android:textStyle="bold"
             tools:text="stanarphar@gmail.com" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -84,7 +83,6 @@
             android:inputType="textEmailAddress"
             android:letterSpacing="0.07"
             android:singleLine="true"
-            android:textStyle="bold"
             tools:text="stanarphar@gmail.com" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -108,7 +106,6 @@
             android:inputType="textPassword"
             android:letterSpacing="0.07"
             android:singleLine="true"
-            android:textStyle="bold"
             tools:text="123456"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -123,6 +120,7 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:textAllCaps="true"
+        android:enabled="false"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
