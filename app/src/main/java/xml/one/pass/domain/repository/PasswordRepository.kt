@@ -1,6 +1,7 @@
 package xml.one.pass.domain.repository
 
 import xml.one.pass.data.local.entity.PasswordEntity
+import xml.one.pass.domain.model.PasswordModel
 
 interface PasswordRepository {
     suspend fun insertPassword(passwordEntity: PasswordEntity)
@@ -17,7 +18,7 @@ interface PasswordRepository {
         timeUpdated: String
     ): Int
 
-    suspend fun loadPassword(): List<PasswordEntity>
+    suspend fun loadPassword(): List<PasswordModel>
 
     suspend fun deletePasswordByID(id: String)
 

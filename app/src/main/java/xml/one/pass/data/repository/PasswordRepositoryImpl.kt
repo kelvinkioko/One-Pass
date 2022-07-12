@@ -2,6 +2,8 @@ package xml.one.pass.data.repository
 
 import xml.one.pass.data.local.OnePassDatabase
 import xml.one.pass.data.local.entity.PasswordEntity
+import xml.one.pass.data.local.mapper.mapToPasswordModel
+import xml.one.pass.domain.model.PasswordModel
 import xml.one.pass.domain.repository.PasswordRepository
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -41,8 +43,8 @@ class PasswordRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun loadPassword(): List<PasswordEntity> {
-        return passwordDao.loadPassword()
+    override suspend fun loadPassword(): List<PasswordModel> {
+        return passwordDao.loadPassword().map { it.mapToPasswordModel() }
     }
 
     override suspend fun deletePasswordByID(id: String) {
