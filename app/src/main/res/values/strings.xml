@@ -59,4 +59,6 @@
     <string name="welcome_three_description">Don’t compromise your passwords by typing them in public, let OnePass autofill those and keep your credentials secure.</string>
     <string name="forgot_password_guide">Let’s get you setup with a new account!</string>
     <string name="submit">SUBMIT</string>
+    <string name="user_profile">User profile</string>
+    <string name="home_page">Home page</string>
 </resources>

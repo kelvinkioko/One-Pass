@@ -13,12 +13,4 @@
         android:left="10dp"
         android:right="10dp"/>
 
-    <item
-        android:drawable="@drawable/ic_home_indicator"
-        android:gravity="bottom"
-        android:height="5dp"
-        android:width="134dp"
-        android:bottom="10dp"
-        android:left="10dp"
-        android:right="10dp"/>
 </layer-list>

@@ -63,7 +63,6 @@ class ForgotPasswordFragment : Fragment(R.layout.forgot_password_fragment) {
                     ForgotPasswordUiState.Success -> findNavController().navigate(
                         ForgotPasswordFragmentDirections.toResetPasswordFragment(emailAddress)
                     )
-                    else -> Unit
                 }
             }
         }

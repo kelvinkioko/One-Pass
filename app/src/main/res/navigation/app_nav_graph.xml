@@ -118,6 +118,11 @@
         android:id="@+id/homeFragment"
         android:name="xml.one.pass.presentation.home.HomeFragment"
         android:label="Home fragment"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <argument
+            android:name="hasBottomNav"
+            android:defaultValue="true"
+            app:argType="boolean" />
+    </fragment>
 
 </navigation>

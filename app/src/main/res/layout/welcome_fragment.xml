@@ -73,7 +73,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textAllCaps="true"
-        app:layout_constraintBottom_toTopOf="@+id/indicator"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/loginAction"
         app:layout_constraintStart_toStartOf="@id/guidelineStart" />
 
@@ -88,20 +88,9 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textAllCaps="true"
-        app:layout_constraintBottom_toTopOf="@+id/indicator"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toEndOf="@id/registerAction" />
-
-    <ImageView
-        android:id="@+id/indicator"
-        android:layout_width="134dp"
-        android:layout_height="5dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:srcCompat="@drawable/ic_home_indicator"
-        android:contentDescription="@string/indicator" />
+        app:layout_constraintStart_toEndOf="@id/registerAction" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineStart"
