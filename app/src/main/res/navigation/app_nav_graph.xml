@@ -125,4 +125,30 @@
             app:argType="boolean" />
     </fragment>
 
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="xml.one.pass.presentation.profile.ProfileFragment"
+        android:label="Profile fragment"
+        tools:layout="@layout/profile_fragment" >
+        <argument
+            android:name="hasBottomNav"
+            android:defaultValue="true"
+            app:argType="boolean" />
+    </fragment>
+
+
+    <action
+        android:id="@+id/toAddPasswordFragment"
+        app:destination="@id/addPasswordFragment"
+        app:enterAnim="@anim/slide_in_from_right"
+        app:exitAnim="@anim/slide_out_to_left"
+        app:popEnterAnim="@anim/slide_in_from_left"
+        app:popExitAnim="@anim/slide_out_to_right" />
+
+    <fragment
+        android:id="@+id/addPasswordFragment"
+        android:name="xml.one.pass.presentation.password.AddPasswordFragment"
+        android:label="Add password fragment"
+        tools:layout="@layout/add_password_fragment" />
+
 </navigation>

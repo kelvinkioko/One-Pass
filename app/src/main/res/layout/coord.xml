@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="top"
-        android:layout_marginBottom="24dp"
-        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="50dp"
         app:backgroundTint="@color/bottom_nav_color"
         app:fabCradleRoundedCornerRadius="8dp" >
@@ -22,7 +22,6 @@
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
             android:background="@android:color/transparent"
-            app:elevation="0dp"
             app:menu="@menu/bottom_menu"
             app:labelVisibilityMode="unlabeled"
             app:itemHorizontalTranslationEnabled="false"/>
