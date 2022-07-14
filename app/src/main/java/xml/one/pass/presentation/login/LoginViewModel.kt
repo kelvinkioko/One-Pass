@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xml.one.pass.domain.repository.AccountRepository
@@ -16,10 +16,8 @@ class LoginViewModel @Inject constructor(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
-    private val _loginUiState = MutableStateFlow<LoginUiState>(
-        LoginUiState.Loading(isLoading = false)
-    )
-    val loginUiState: StateFlow<LoginUiState> = _loginUiState
+    private val _loginUiState = MutableStateFlow<LoginUiState>(LoginUiState.Loading())
+    val loginUiState = _loginUiState.asStateFlow()
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
@@ -45,7 +43,7 @@ class LoginViewModel @Inject constructor(
 }
 
 sealed class LoginUiState {
-    data class Loading(val isLoading: Boolean) : LoginUiState()
+    data class Loading(val isLoading: Boolean = false) : LoginUiState()
 
     data class Error(val message: String) : LoginUiState()
 

@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import xml.one.pass.R
 import xml.one.pass.databinding.ProfileFragmentBinding
 import xml.one.pass.extension.viewBinding
@@ -27,15 +31,17 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
     }
 
     private fun setUpObservers() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.profileUiState.collect { state ->
-                when (state) {
-                    ProfileUiState.StartState -> {}
-                    is ProfileUiState.ProfileDetails ->
-                        binding.apply {
-                            nameValue.text = state.name
-                            emailValue.text = state.emailAddress
-                        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.profileUiState.collectLatest { state ->
+                    when (state) {
+                        ProfileUiState.StartState -> {}
+                        is ProfileUiState.ProfileDetails ->
+                            binding.apply {
+                                nameValue.text = state.name
+                                emailValue.text = state.emailAddress
+                            }
+                    }
                 }
             }
         }

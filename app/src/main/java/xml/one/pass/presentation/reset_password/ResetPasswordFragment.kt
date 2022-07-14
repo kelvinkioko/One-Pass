@@ -5,10 +5,13 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import xml.one.pass.R
 import xml.one.pass.databinding.ResetPasswordFragmentBinding
 import xml.one.pass.extension.viewBinding
@@ -51,20 +54,22 @@ class ResetPasswordFragment : Fragment(R.layout.reset_password_fragment) {
     }
 
     private fun setUpObserver() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.resetPasswordUiState.collect { state ->
-                when (state) {
-                    is ResetPasswordUiState.Error ->
-                        Snackbar.make(binding.root, state.message, Snackbar.LENGTH_LONG).show()
-                    is ResetPasswordUiState.Loading ->
-                        Snackbar.make(
-                            binding.root,
-                            if (state.isLoading) "Loading" else "Not Loading",
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    ResetPasswordUiState.Success -> findNavController().navigate(
-                        ResetPasswordFragmentDirections.toLoginFragment()
-                    )
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.resetUiState.collect { state ->
+                    when (state) {
+                        is ResetUiState.Error ->
+                            Snackbar.make(binding.root, state.message, Snackbar.LENGTH_LONG).show()
+                        is ResetUiState.Loading ->
+                            Snackbar.make(
+                                binding.root,
+                                if (state.isLoading) "Loading" else "Not Loading",
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        ResetUiState.Success -> findNavController().navigate(
+                            ResetPasswordFragmentDirections.toLoginFragment()
+                        )
+                    }
                 }
             }
         }

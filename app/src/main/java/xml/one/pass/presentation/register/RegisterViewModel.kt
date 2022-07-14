@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xml.one.pass.domain.repository.AccountRepository
@@ -17,10 +17,8 @@ class RegisterViewModel @Inject constructor(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
-    private val _registerUiState = MutableStateFlow<RegisterUiState>(
-        RegisterUiState.Loading(isLoading = false)
-    )
-    val registerUiState: StateFlow<RegisterUiState> = _registerUiState
+    private val _registerUiState = MutableStateFlow<RegisterUiState>(RegisterUiState.Loading())
+    val registerUiState = _registerUiState.asStateFlow()
 
     fun registerAccount(name: String, email: String, password: String) {
         viewModelScope.launch {
@@ -59,7 +57,7 @@ class RegisterViewModel @Inject constructor(
 }
 
 sealed class RegisterUiState {
-    data class Loading(val isLoading: Boolean) : RegisterUiState()
+    data class Loading(val isLoading: Boolean = false) : RegisterUiState()
 
     data class Error(val message: String) : RegisterUiState()
 

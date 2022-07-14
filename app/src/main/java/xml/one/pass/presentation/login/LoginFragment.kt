@@ -5,10 +5,14 @@ import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import xml.one.pass.R
 import xml.one.pass.databinding.LoginFragmentBinding
 import xml.one.pass.extension.viewBinding
@@ -47,23 +51,25 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     }
 
     private fun setUpObserver() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.loginUiState.collect { state ->
-                when (state) {
-                    is LoginUiState.Error ->
-                        Snackbar.make(
-                            binding.root,
-                            state.message,
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    is LoginUiState.Loading ->
-                        Snackbar.make(
-                            binding.root,
-                            if (state.isLoading) "Loading" else "Not Loading",
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                    LoginUiState.Success ->
-                        findNavController().navigate(LoginFragmentDirections.toHomeFragment())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.loginUiState.collectLatest { state ->
+                    when (state) {
+                        is LoginUiState.Error ->
+                            Snackbar.make(
+                                binding.root,
+                                state.message,
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        is LoginUiState.Loading ->
+                            Snackbar.make(
+                                binding.root,
+                                if (state.isLoading) "Loading" else "Not Loading",
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        LoginUiState.Success ->
+                            findNavController().navigate(LoginFragmentDirections.toHomeFragment())
+                    }
                 }
             }
         }

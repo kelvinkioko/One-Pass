@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xml.one.pass.domain.repository.AccountRepository
@@ -17,7 +17,7 @@ class ProfileViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _profileUiState = MutableStateFlow<ProfileUiState>(ProfileUiState.StartState)
-    val profileUiState: StateFlow<ProfileUiState> = _profileUiState
+    val profileUiState = _profileUiState.asStateFlow()
 
     init {
         setUpProfilePage()

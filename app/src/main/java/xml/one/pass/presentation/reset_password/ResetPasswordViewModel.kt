@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xml.one.pass.domain.repository.AccountRepository
@@ -16,14 +16,14 @@ class ResetPasswordViewModel @Inject constructor(
     private val accountRepository: AccountRepository
 ) : ViewModel() {
 
-    private val _resetPasswordUiState = MutableStateFlow<ResetPasswordUiState>(
-        ResetPasswordUiState.Loading(isLoading = false)
+    private val _resetUiState = MutableStateFlow<ResetUiState>(
+        ResetUiState.Loading()
     )
-    val resetPasswordUiState: StateFlow<ResetPasswordUiState> = _resetPasswordUiState
+    val resetUiState = _resetUiState.asStateFlow()
 
     fun resetPassword(password: String) {
         viewModelScope.launch {
-            _resetPasswordUiState.value = ResetPasswordUiState.Loading(isLoading = true)
+            _resetUiState.value = ResetUiState.Loading(isLoading = true)
             withContext(Dispatchers.IO) {
                 val account = accountRepository.loadAccount()
                 val updatedPassword = accountRepository.updateAccountPassword(
@@ -32,11 +32,11 @@ class ResetPasswordViewModel @Inject constructor(
                 )
 
                 withContext(Dispatchers.Main) {
-                    _resetPasswordUiState.value = ResetPasswordUiState.Loading(isLoading = false)
-                    _resetPasswordUiState.value = if (updatedPassword == 1) {
-                        ResetPasswordUiState.Success
+                    _resetUiState.value = ResetUiState.Loading(isLoading = false)
+                    _resetUiState.value = if (updatedPassword == 1) {
+                        ResetUiState.Success
                     } else {
-                        ResetPasswordUiState.Error(message = "Unable to reset the password")
+                        ResetUiState.Error(message = "Unable to reset the password")
                     }
                 }
             }
@@ -44,10 +44,10 @@ class ResetPasswordViewModel @Inject constructor(
     }
 }
 
-sealed class ResetPasswordUiState {
-    data class Loading(val isLoading: Boolean) : ResetPasswordUiState()
+sealed class ResetUiState {
+    data class Loading(val isLoading: Boolean = false) : ResetUiState()
 
-    data class Error(val message: String) : ResetPasswordUiState()
+    data class Error(val message: String) : ResetUiState()
 
-    object Success : ResetPasswordUiState()
+    object Success : ResetUiState()
 }

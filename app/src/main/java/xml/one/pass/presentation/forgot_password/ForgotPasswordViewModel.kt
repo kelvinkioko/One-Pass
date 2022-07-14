@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xml.one.pass.domain.repository.AccountRepository
@@ -18,9 +18,9 @@ class ForgotPasswordViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _forgotPasswordUiState = MutableStateFlow<ForgotPasswordUiState>(
-        ForgotPasswordUiState.Loading(isLoading = false)
+        ForgotPasswordUiState.Loading()
     )
-    val forgotPasswordUiState: StateFlow<ForgotPasswordUiState> = _forgotPasswordUiState
+    val forgotPasswordUiState = _forgotPasswordUiState.asStateFlow()
 
     fun checkAccountExists(email: String) {
         viewModelScope.launch {
@@ -43,7 +43,7 @@ class ForgotPasswordViewModel @Inject constructor(
 }
 
 sealed class ForgotPasswordUiState {
-    data class Loading(val isLoading: Boolean) : ForgotPasswordUiState()
+    data class Loading(val isLoading: Boolean = false) : ForgotPasswordUiState()
 
     data class Error(val message: String) : ForgotPasswordUiState()
 

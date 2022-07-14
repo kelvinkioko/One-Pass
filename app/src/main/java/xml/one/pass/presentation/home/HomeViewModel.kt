@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xml.one.pass.domain.model.PasswordModel
@@ -18,7 +18,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _homeUiState = MutableStateFlow<HomeUiState>(HomeUiState.HomeState)
-    val homeUiState: StateFlow<HomeUiState> = _homeUiState
+    val homeUiState = _homeUiState.asStateFlow()
 
     init {
         setUpHomePage()
