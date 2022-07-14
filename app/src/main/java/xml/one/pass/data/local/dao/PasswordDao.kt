@@ -8,7 +8,7 @@ import xml.one.pass.data.local.entity.PasswordEntity
 
 @Dao
 interface PasswordDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(entity = PasswordEntity::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPassword(passwordEntity: PasswordEntity)
 
     @Query(
@@ -36,6 +36,22 @@ interface PasswordDao {
 
     @Query("SELECT * FROM password")
     suspend fun loadPassword(): List<PasswordEntity>
+
+    @Query(
+        "SELECT COUNT(id) FROM password WHERE " +
+            "site_name =:siteName AND " +
+            "password =:password AND " +
+            "(user_name =:userName OR " +
+            "email_address =:email OR " +
+            "phone_number =:phoneNumber)"
+    )
+    suspend fun doesPasswordExist(
+        siteName: String,
+        userName: String,
+        email: String,
+        phoneNumber: String,
+        password: String
+    ): Int
 
     @Query("DELETE FROM password WHERE id =:id")
     suspend fun deletePasswordByID(id: String)

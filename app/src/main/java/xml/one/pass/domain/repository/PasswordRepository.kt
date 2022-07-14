@@ -1,10 +1,21 @@
 package xml.one.pass.domain.repository
 
-import xml.one.pass.data.local.entity.PasswordEntity
+import kotlinx.coroutines.flow.Flow
 import xml.one.pass.domain.model.PasswordModel
+import xml.one.pass.util.Resource
 
 interface PasswordRepository {
-    suspend fun insertPassword(passwordEntity: PasswordEntity)
+    suspend fun insertPassword(
+        siteName: String,
+        url: String,
+        userName: String,
+        email: String,
+        password: String,
+        phoneNumber: String,
+        securityQuestions: String,
+        timeCreated: String,
+        timeUpdated: String
+    ): Flow<Resource<Boolean>>
 
     suspend fun updatePasswordDetails(
         id: Int,
@@ -16,9 +27,17 @@ interface PasswordRepository {
         phoneNumber: String = "",
         securityQuestions: String = "",
         timeUpdated: String
-    ): Int
+    ): Boolean
 
     suspend fun loadPassword(): List<PasswordModel>
+
+    suspend fun doesPasswordExist(
+        siteName: String,
+        userName: String,
+        email: String,
+        phoneNumber: String,
+        password: String
+    ): Boolean
 
     suspend fun deletePasswordByID(id: String)
 

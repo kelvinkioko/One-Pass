@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
         setUpHomePage()
     }
 
-    private fun setUpHomePage() {
+    fun setUpHomePage() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val passwords = passwordRepository.loadPassword()
