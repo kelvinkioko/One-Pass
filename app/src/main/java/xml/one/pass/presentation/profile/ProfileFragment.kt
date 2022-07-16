@@ -35,7 +35,7 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.profileUiState.collectLatest { state ->
                     when (state) {
-                        ProfileUiState.StartState -> {}
+                        ProfileUiState.StartState -> Unit
                         is ProfileUiState.ProfileDetails ->
                             binding.apply {
                                 nameValue.text = state.name

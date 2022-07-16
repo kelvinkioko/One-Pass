@@ -57,7 +57,11 @@ class RegisterFragment : Fragment(R.layout.register_fragment) {
                 viewModel.registerUiState.collectLatest { state ->
                     when (state) {
                         is RegisterUiState.Error ->
-                            Snackbar.make(binding.root, state.message, Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(
+                                binding.root,
+                                state.message.asString(context = requireContext()),
+                                Snackbar.LENGTH_LONG
+                            ).show()
                         is RegisterUiState.Loading ->
                             Snackbar.make(
                                 binding.root,

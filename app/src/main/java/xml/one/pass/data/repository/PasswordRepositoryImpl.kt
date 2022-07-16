@@ -96,6 +96,20 @@ class PasswordRepositoryImpl @Inject constructor(
         return passwordDao.loadPassword().map { it.mapToPasswordModel() }
     }
 
+    override suspend fun loadPasswordById(passwordId: Int): Flow<Resource<PasswordModel>> = flow {
+        try {
+            val password = passwordDao.loadPasswordById(passwordId = passwordId)
+
+            password?.let { passwordEntity ->
+                emit(Resource.Success(data = passwordEntity.mapToPasswordModel()))
+            } ?: kotlin.run {
+                emit(Resource.Error(message = "Couldn't find the password details"))
+            }
+        } catch (exception: Throwable) {
+            emit(Resource.Error(message = exception.message ?: "Couldn't find the password details"))
+        }
+    }
+
     override suspend fun doesPasswordExist(
         siteName: String,
         userName: String,

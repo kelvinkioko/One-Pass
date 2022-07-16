@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import xml.one.pass.databinding.ItemStoredPasswordBinding
 import xml.one.pass.domain.model.PasswordModel
 
-class PasswordsAdapter() : ListAdapter<PasswordModel, PasswordsAdapter.ViewHolder>(DIFF_UTIL) {
+class PasswordsAdapter(
+    private val passwordID: (Int) -> Unit
+) : ListAdapter<PasswordModel, PasswordsAdapter.ViewHolder>(DIFF_UTIL) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -30,6 +32,10 @@ class PasswordsAdapter() : ListAdapter<PasswordModel, PasswordsAdapter.ViewHolde
         fun bind(password: PasswordModel) {
             binding.apply {
                 storedPasswordsSubTitle.text = password.siteName
+
+                itemView.setOnClickListener {
+                    passwordID(password.id)
+                }
             }
         }
     }

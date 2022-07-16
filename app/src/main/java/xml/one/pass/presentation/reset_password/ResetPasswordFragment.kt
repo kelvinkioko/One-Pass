@@ -43,7 +43,7 @@ class ResetPasswordFragment : Fragment(R.layout.reset_password_fragment) {
         binding.apply {
             resetAction.setOnClickListener {
                 if (password != confirmPassword) {
-                    confirmPasswordInput.error = "Passwords do not match"
+                    confirmPasswordInput.error = getString(R.string.password_match_error)
                 } else {
                     viewModel.resetPassword(
                         password = password
@@ -59,7 +59,11 @@ class ResetPasswordFragment : Fragment(R.layout.reset_password_fragment) {
                 viewModel.resetUiState.collect { state ->
                     when (state) {
                         is ResetUiState.Error ->
-                            Snackbar.make(binding.root, state.message, Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(
+                                binding.root,
+                                state.message.asString(context = requireContext()),
+                                Snackbar.LENGTH_LONG
+                            ).show()
                         is ResetUiState.Loading ->
                             Snackbar.make(
                                 binding.root,

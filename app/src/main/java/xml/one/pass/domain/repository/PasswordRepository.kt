@@ -31,6 +31,8 @@ interface PasswordRepository {
 
     suspend fun loadPassword(): List<PasswordModel>
 
+    suspend fun loadPasswordById(passwordId: Int): Flow<Resource<PasswordModel>>
+
     suspend fun doesPasswordExist(
         siteName: String,
         userName: String,

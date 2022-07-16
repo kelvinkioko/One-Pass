@@ -2,6 +2,7 @@ package xml.one.pass.presentation.login
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -58,21 +59,22 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                         is LoginUiState.Error ->
                             Snackbar.make(
                                 binding.root,
-                                state.message,
+                                state.message.asString(context = requireContext()),
                                 Snackbar.LENGTH_LONG
                             ).show()
                         is LoginUiState.Loading ->
-                            Snackbar.make(
-                                binding.root,
-                                if (state.isLoading) "Loading" else "Not Loading",
-                                Snackbar.LENGTH_LONG
-                            ).show()
+                            setLoader(isLoading = state.isLoading)
                         LoginUiState.Success ->
                             findNavController().navigate(LoginFragmentDirections.toHomeFragment())
                     }
                 }
             }
         }
+    }
+
+    private fun setLoader(isLoading: Boolean) {
+        binding.signActionsGroup.isVisible = !isLoading
+        binding.loader.isVisible = isLoading
     }
 
     private fun setUpInputListener() {

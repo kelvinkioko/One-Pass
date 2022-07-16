@@ -66,4 +66,12 @@
     <string name="profile">Profile</string>
     <string name="placeholder">Placeholder</string>
     <string name="add_new">Add new</string>
+
+    <!--    Login resources    -->
+    <string name="login_credentials_error">Login credentials are invalid. Please try again</string>
+
+    <string name="no_account_by_email">No account exists with under that E-mail address</string>
+    <string name="save_password_error">An error occurred while saving your password details</string>
+    <string name="password_match_error">Passwords do not match</string>
+    <string name="reset_password_error">Unable to reset the password</string>
 </resources>

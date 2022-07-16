@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/onBoardingFragment"
+    app:startDestination="@id/homeFragment"
     android:id="@+id/app_nav_graph"
     tools:ignore="UnusedNavigation">
 
@@ -147,8 +147,8 @@
 
     <fragment
         android:id="@+id/addPasswordFragment"
-        android:name="xml.one.pass.presentation.password.AddPasswordFragment"
+        android:name="xml.one.pass.presentation.password.add.AddPasswordFragment"
         android:label="Add password fragment"
-        tools:layout="@layout/add_password_fragment" />
+        tools:layout="@layout/password_add_fragment" />
 
 </navigation>

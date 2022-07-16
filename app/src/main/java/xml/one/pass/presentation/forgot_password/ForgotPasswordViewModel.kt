@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import xml.one.pass.R
 import xml.one.pass.domain.repository.AccountRepository
+import xml.one.pass.util.TextResource
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +36,7 @@ class ForgotPasswordViewModel @Inject constructor(
                         ForgotPasswordUiState.Success
                     else
                         ForgotPasswordUiState.Error(
-                            message = "No account exists with under that E-mail address"
+                            message = TextResource.StringResource(R.string.no_account_by_email)
                         )
                 }
             }
@@ -45,7 +47,7 @@ class ForgotPasswordViewModel @Inject constructor(
 sealed class ForgotPasswordUiState {
     data class Loading(val isLoading: Boolean = false) : ForgotPasswordUiState()
 
-    data class Error(val message: String) : ForgotPasswordUiState()
+    data class Error(val message: TextResource) : ForgotPasswordUiState()
 
     object Success : ForgotPasswordUiState()
 }

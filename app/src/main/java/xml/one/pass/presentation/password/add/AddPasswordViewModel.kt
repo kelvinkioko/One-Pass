@@ -1,4 +1,4 @@
-package xml.one.pass.presentation.password
+package xml.one.pass.presentation.password.add
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,9 +10,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import xml.one.pass.R
 import xml.one.pass.domain.repository.PasswordRepository
 import xml.one.pass.extension.getCurrentDate
 import xml.one.pass.util.Resource
+import xml.one.pass.util.TextResource
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,14 +55,16 @@ class AddPasswordViewModel @Inject constructor(
                 when (resource) {
                     is Resource.Error -> {
                         _uiState.value = AddPasswordUiState.Error(
-                            errorMessage = resource.message ?: ""
+                            errorMessage = TextResource.DynamicString(resource.message ?: "")
                         )
                     }
                     is Resource.Success -> {
                         _uiState.value = if (resource.data == true)
                             AddPasswordUiState.Success
                         else
-                            AddPasswordUiState.Error(errorMessage = "An error occurred while saving your password details sealed")
+                            AddPasswordUiState.Error(
+                                errorMessage = TextResource.StringResource(R.string.save_password_error)
+                            )
                     }
                 }
             }.launchIn(viewModelScope)
@@ -73,5 +77,5 @@ sealed class AddPasswordUiState {
 
     object Success : AddPasswordUiState()
 
-    data class Error(val errorMessage: String) : AddPasswordUiState()
+    data class Error(val errorMessage: TextResource) : AddPasswordUiState()
 }

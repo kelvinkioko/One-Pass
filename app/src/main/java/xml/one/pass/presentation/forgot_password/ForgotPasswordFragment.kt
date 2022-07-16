@@ -58,7 +58,11 @@ class ForgotPasswordFragment : Fragment(R.layout.forgot_password_fragment) {
                 viewModel.forgotPasswordUiState.collectLatest { state ->
                     when (state) {
                         is ForgotPasswordUiState.Error ->
-                            Snackbar.make(binding.root, state.message, Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(
+                                binding.root,
+                                state.message.asString(context = requireContext()),
+                                Snackbar.LENGTH_LONG
+                            ).show()
                         is ForgotPasswordUiState.Loading ->
                             Snackbar.make(
                                 binding.root,

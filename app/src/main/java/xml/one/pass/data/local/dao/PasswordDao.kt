@@ -37,6 +37,9 @@ interface PasswordDao {
     @Query("SELECT * FROM password")
     suspend fun loadPassword(): List<PasswordEntity>
 
+    @Query("SELECT * FROM password WHERE id =:passwordId")
+    suspend fun loadPasswordById(passwordId: Int): PasswordEntity?
+
     @Query(
         "SELECT COUNT(id) FROM password WHERE " +
             "site_name =:siteName AND " +

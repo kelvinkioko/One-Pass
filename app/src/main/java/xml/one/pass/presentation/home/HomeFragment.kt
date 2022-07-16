@@ -2,6 +2,7 @@ package xml.one.pass.presentation.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 import xml.one.pass.R
 import xml.one.pass.databinding.HomeFragmentBinding
 import xml.one.pass.domain.model.PasswordModel
+import xml.one.pass.extension.setNullableAdapter
 import xml.one.pass.extension.viewBinding
 import xml.one.pass.presentation.home.adapter.PasswordsAdapter
 
@@ -57,10 +59,16 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         }
     }
 
-    private val passwordsAdapter: PasswordsAdapter by lazy { PasswordsAdapter() }
+    private val passwordsAdapter: PasswordsAdapter by lazy {
+        PasswordsAdapter(
+            passwordID = { passwordID ->
+                Toast.makeText(requireContext(), passwordID.toString(), Toast.LENGTH_LONG).show()
+            }
+        )
+    }
 
     private fun setUpList() {
-        binding.passwordsList.adapter = passwordsAdapter
+        binding.passwordsList.setNullableAdapter(passwordsAdapter)
     }
 
     private fun renderPasswords(passwords: List<PasswordModel>) {

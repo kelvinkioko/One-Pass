@@ -1,4 +1,4 @@
-package xml.one.pass.presentation.password
+package xml.one.pass.presentation.password.add
 
 import android.os.Bundle
 import android.view.View
@@ -14,13 +14,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import xml.one.pass.R
-import xml.one.pass.databinding.AddPasswordFragmentBinding
+import xml.one.pass.databinding.PasswordAddFragmentBinding
 import xml.one.pass.extension.viewBinding
 
 @AndroidEntryPoint
-class AddPasswordFragment : Fragment(R.layout.add_password_fragment) {
+class AddPasswordFragment : Fragment(R.layout.password_add_fragment) {
 
-    private val binding by viewBinding(AddPasswordFragmentBinding::bind)
+    private val binding by viewBinding(PasswordAddFragmentBinding::bind)
     private val viewModel: AddPasswordViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,7 +75,7 @@ class AddPasswordFragment : Fragment(R.layout.add_password_fragment) {
                         is AddPasswordUiState.Error ->
                             Snackbar.make(
                                 binding.root,
-                                state.errorMessage,
+                                state.errorMessage.asString(context = requireContext()),
                                 Snackbar.LENGTH_LONG
                             ).show()
                     }
