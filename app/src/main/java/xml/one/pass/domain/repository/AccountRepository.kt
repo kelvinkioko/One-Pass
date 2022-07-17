@@ -9,7 +9,7 @@ interface AccountRepository {
 
     suspend fun updateAccountPassword(password: String, id: Int): Int
 
-    suspend fun loadAccount(): AccountModel
+    suspend fun loadAccount(): AccountModel?
 
     suspend fun areThereAccounts(): Boolean
 

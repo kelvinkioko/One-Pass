@@ -67,6 +67,9 @@
     <string name="placeholder">Placeholder</string>
     <string name="add_new">Add new</string>
 
+    <string name="account_exists_error">An account exists with that email. Proceed to login.</string>
+    <string name="account_exists_different_email_error">An account already exists with the email %1$s. Proceed to login.</string>
+
     <!--    Login resources    -->
     <string name="login_credentials_error">Login credentials are invalid. Please try again</string>
 
@@ -74,4 +77,6 @@
     <string name="save_password_error">An error occurred while saving your password details</string>
     <string name="password_match_error">Passwords do not match</string>
     <string name="reset_password_error">Unable to reset the password</string>
+    <string name="no_profile_message">We could not find your profile. Login out and try again</string>
+    <string name="no_profile">No profile</string>
 </resources>

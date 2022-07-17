@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import xml.one.pass.domain.model.AccountModel
 import xml.one.pass.domain.repository.AccountRepository
 import javax.inject.Inject
 
@@ -27,10 +28,7 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             val account = withContext(Dispatchers.IO) { accountRepository.loadAccount() }
 
-            _profileUiState.value = ProfileUiState.ProfileDetails(
-                name = account.name,
-                emailAddress = account.email
-            )
+            _profileUiState.value = ProfileUiState.ProfileDetails(account = account)
         }
     }
 }
@@ -38,8 +36,5 @@ class ProfileViewModel @Inject constructor(
 sealed class ProfileUiState {
     object StartState : ProfileUiState()
 
-    data class ProfileDetails(
-        val name: String,
-        val emailAddress: String
-    ) : ProfileUiState()
+    data class ProfileDetails(val account: AccountModel?) : ProfileUiState()
 }

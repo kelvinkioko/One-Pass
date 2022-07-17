@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import xml.one.pass.R
 import xml.one.pass.domain.repository.AccountRepository
 import xml.one.pass.util.TextResource
 import javax.inject.Inject
@@ -30,7 +31,7 @@ class RegisterViewModel @Inject constructor(
                     withContext(Dispatchers.Main) {
                         _registerUiState.value = RegisterUiState.Loading(isLoading = false)
                         _registerUiState.value = RegisterUiState.Error(
-                            message = TextResource.DynamicString("An account exists with that email. Proceed to login.")
+                            message = TextResource.StringResource(R.string.account_exists_error)
                         )
                     }
                 } else if (accountRepository.areThereAccounts()) {
@@ -38,7 +39,7 @@ class RegisterViewModel @Inject constructor(
                     withContext(Dispatchers.Main) {
                         _registerUiState.value = RegisterUiState.Loading(isLoading = false)
                         _registerUiState.value = RegisterUiState.Error(
-                            message = TextResource.DynamicString("An account already exists with the email ${existingAccount.email}. Proceed to login.")
+                            message = TextResource.DynamicString("An account already exists with the email ${existingAccount?.email}. Proceed to login.")
                         )
                     }
                 } else {

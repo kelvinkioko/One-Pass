@@ -33,8 +33,8 @@ class AccountRepositoryImpl @Inject constructor(
         return accountDao.updateAccountPassword(password = password, id = id)
     }
 
-    override suspend fun loadAccount(): AccountModel {
-        return accountDao.loadAccount().mapToAccountModel()
+    override suspend fun loadAccount(): AccountModel? {
+        return accountDao.loadAccount()?.mapToAccountModel() ?: kotlin.run { null }
     }
 
     override suspend fun areThereAccounts(): Boolean =

@@ -30,7 +30,7 @@ class ResetPasswordViewModel @Inject constructor(
                 val account = accountRepository.loadAccount()
                 val updatedPassword = accountRepository.updateAccountPassword(
                     password = password,
-                    id = account.id
+                    id = account?.id ?: 0
                 )
 
                 withContext(Dispatchers.Main) {

@@ -2,6 +2,8 @@ package xml.one.pass.presentation.profile
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,6 +14,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import xml.one.pass.R
 import xml.one.pass.databinding.ProfileFragmentBinding
+import xml.one.pass.domain.model.AccountModel
 import xml.one.pass.extension.viewBinding
 
 @AndroidEntryPoint
@@ -37,12 +40,20 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
                     when (state) {
                         ProfileUiState.StartState -> Unit
                         is ProfileUiState.ProfileDetails ->
-                            binding.apply {
-                                nameValue.text = state.name
-                                emailValue.text = state.emailAddress
-                            }
+                            renderProfile(accountModel = state.account)
                     }
                 }
+            }
+        }
+    }
+
+    private fun renderProfile(accountModel: AccountModel?) {
+        binding.apply {
+            contentGroup.isVisible = accountModel != null
+            emptyGroup.isGone = accountModel != null
+            accountModel?.let { account ->
+                nameValue.text = account.name
+                emailValue.text = account.email
             }
         }
     }
