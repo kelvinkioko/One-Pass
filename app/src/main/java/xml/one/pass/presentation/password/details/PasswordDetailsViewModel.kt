@@ -28,7 +28,7 @@ class PasswordDetailsViewModel @Inject constructor(
     private var passwordID: Int = 0
 
     fun loadPasswordDetails(passwordId: Int) {
-        this.passwordID = passwordID
+        this.passwordID = passwordId
         viewModelScope.launch {
             val password = withContext(Dispatchers.IO) {
                 passwordRepository.loadPasswordById(passwordId = passwordId)
@@ -57,7 +57,7 @@ class PasswordDetailsViewModel @Inject constructor(
     }
 
     fun navigateToEditPasswordDetails() {
-        val direction = PasswordDetailsFragmentDirections.toAddPasswordFragment()
+        val direction = PasswordDetailsFragmentDirections.toAddPasswordFragment(passwordID)
         _uiState.value = PasswordDetailsUiState.EditPasswordDetails(detailsDestination = direction)
     }
 }

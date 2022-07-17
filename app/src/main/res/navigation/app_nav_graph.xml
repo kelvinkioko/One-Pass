@@ -175,7 +175,6 @@
         tools:layout="@layout/password_add_fragment" >
         <argument
             android:name="passwordID"
-            android:defaultValue="0"
             app:argType="integer" />
     </fragment>
 

@@ -41,7 +41,7 @@ interface PasswordDao {
     suspend fun loadPasswordById(passwordId: Int): PasswordEntity?
 
     @Query("SELECT COUNT(id) FROM password WHERE id =:passwordId")
-    fun doesPasswordExistWithID(passwordId: Int): Int
+    suspend fun doesPasswordExistWithID(passwordId: Int): Int
 
     @Query(
         "SELECT COUNT(id) FROM password WHERE " +

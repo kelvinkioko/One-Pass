@@ -35,7 +35,7 @@ class AddPasswordViewModel @Inject constructor(
         password: String = "",
         phoneNumber: String = ""
     ) {
-        if (passwordID > 0) {
+        if (passwordID == 0) {
             createPassword(
                 siteName = siteName,
                 url = url,

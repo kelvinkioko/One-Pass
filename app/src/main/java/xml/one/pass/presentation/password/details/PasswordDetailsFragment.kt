@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -22,6 +23,7 @@ class PasswordDetailsFragment : Fragment(R.layout.password_details_fragment) {
 
     private val binding by viewBinding(PasswordDetailsFragmentBinding::bind)
     private val viewModel: PasswordDetailsViewModel by viewModels()
+    private val args: PasswordDetailsFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,6 +31,8 @@ class PasswordDetailsFragment : Fragment(R.layout.password_details_fragment) {
         setToolBar()
         setClickListener()
         setObserver()
+
+        viewModel.loadPasswordDetails(passwordId = args.passwordID)
     }
 
     private fun setToolBar() {

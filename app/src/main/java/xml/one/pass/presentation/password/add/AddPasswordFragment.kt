@@ -30,6 +30,8 @@ class AddPasswordFragment : Fragment(R.layout.password_add_fragment) {
 
         viewModel.passwordID = args.passwordID
 
+        println("passwordID ${args.passwordID}")
+
         setToolbar()
         setUpClickListener()
         setUpObservers()
