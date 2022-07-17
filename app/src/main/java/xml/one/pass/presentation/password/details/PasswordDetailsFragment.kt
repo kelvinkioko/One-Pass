@@ -72,8 +72,8 @@ class PasswordDetailsFragment : Fragment(R.layout.password_details_fragment) {
             emailAddressValue.text = password.email
             passwordValue.text = password.password
             phoneNumberValue.text = password.phoneNumber
-            updatedValue.text = password.userName
-            createdValue.text = password.userName
+            updatedValue.text = password.timeUpdated.asDate()
+            createdValue.text = password.timeCreated.asDate()
         }
     }
 }

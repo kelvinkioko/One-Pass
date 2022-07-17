@@ -1,5 +1,7 @@
 package xml.one.pass.domain.model
 
+import xml.one.pass.util.DateResource
+
 data class PasswordModel(
     val id: Int = 0,
     val siteName: String = "",
@@ -9,6 +11,6 @@ data class PasswordModel(
     val password: String,
     val phoneNumber: String = "",
     val securityQuestions: String = "",
-    val timeCreated: String,
-    val timeUpdated: String
+    val timeCreated: DateResource,
+    val timeUpdated: DateResource
 )

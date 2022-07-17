@@ -20,4 +20,5 @@ object DateConstants {
     const val MDY_HMS_A_FORWARD_SLASH = "MM/dd/yyyy HH:mm:ss a"
     const val YMD_T_HMS_HYPHEN = "yyyy-MM-dd'T'HH:mm:ss"
     const val DMY_HMS_HYPHEN = "dd-MM-yyyy HH:mm:ss"
+    const val DAY_DMY_HM_HYPHEN = "EEE dd, MMM yyyy HH:mm"
 }
