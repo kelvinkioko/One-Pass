@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import xml.one.pass.R
@@ -16,6 +17,7 @@ import xml.one.pass.databinding.PasswordDetailsFragmentBinding
 import xml.one.pass.domain.model.PasswordModel
 import xml.one.pass.extension.viewBinding
 
+@AndroidEntryPoint
 class PasswordDetailsFragment : Fragment(R.layout.password_details_fragment) {
 
     private val binding by viewBinding(PasswordDetailsFragmentBinding::bind)
@@ -36,6 +38,7 @@ class PasswordDetailsFragment : Fragment(R.layout.password_details_fragment) {
     private fun setClickListener() {
         binding.apply {
             updateAction.setOnClickListener {
+                viewModel.navigateToEditPasswordDetails()
             }
 
             deleteAction.setOnClickListener {
@@ -58,6 +61,8 @@ class PasswordDetailsFragment : Fragment(R.layout.password_details_fragment) {
                             ).show()
                         is PasswordDetailsUiState.PasswordDetails ->
                             renderPasswordDetails(password = state.password)
+                        is PasswordDetailsUiState.EditPasswordDetails ->
+                            findNavController().navigate(state.detailsDestination)
                     }
                 }
             }

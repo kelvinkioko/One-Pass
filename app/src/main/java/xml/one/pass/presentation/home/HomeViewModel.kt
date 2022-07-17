@@ -2,6 +2,7 @@ package xml.one.pass.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +18,8 @@ class HomeViewModel @Inject constructor(
     private val passwordRepository: PasswordRepository
 ) : ViewModel() {
 
-    private val _homeUiState = MutableStateFlow<HomeUiState>(HomeUiState.HomeState)
-    val homeUiState = _homeUiState.asStateFlow()
+    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.HomeState)
+    val uiState = _uiState.asStateFlow()
 
     init {
         setUpHomePage()
@@ -26,22 +27,25 @@ class HomeViewModel @Inject constructor(
 
     fun setUpHomePage() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val passwords = passwordRepository.loadPassword()
-
-                withContext(Dispatchers.Main) {
-                    _homeUiState.value = HomeUiState.PasswordStored(
-                        passwordStored = passwords.size.toString()
-                    )
-                    _homeUiState.value = HomeUiState.PasswordCompromised(
-                        passwordCompromised = "0"
-                    )
-                    _homeUiState.value = HomeUiState.Passwords(
-                        passwords = passwords
-                    )
-                }
+            val passwords = withContext(Dispatchers.IO) {
+                passwordRepository.loadPassword()
             }
+
+            _uiState.value = HomeUiState.Passwords(
+                passwords = passwords
+            )
+            _uiState.value = HomeUiState.PasswordStored(
+                passwordStored = passwords.size.toString()
+            )
+            _uiState.value = HomeUiState.PasswordCompromised(
+                passwordCompromised = "0"
+            )
         }
+    }
+
+    fun navigateToPasswordDetails(passwordID: Int) {
+        val direction = HomeFragmentDirections.toPasswordDetailsFragment(passwordID)
+        _uiState.value = HomeUiState.PasswordDetails(detailsDestination = direction)
     }
 }
 
@@ -53,4 +57,7 @@ sealed class HomeUiState {
     data class PasswordCompromised(val passwordCompromised: String) : HomeUiState()
 
     data class Passwords(val passwords: List<PasswordModel>) : HomeUiState()
+
+    // Navigation
+    data class PasswordDetails(val detailsDestination: NavDirections) : HomeUiState()
 }

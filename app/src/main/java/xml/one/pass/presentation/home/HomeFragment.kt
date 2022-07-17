@@ -2,13 +2,13 @@ package xml.one.pass.presentation.home
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -44,15 +44,17 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     private fun setUpObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.homeUiState.collectLatest { state ->
+                viewModel.uiState.collectLatest { state ->
                     when (state) {
-                        HomeUiState.HomeState -> {}
+                        HomeUiState.HomeState -> Unit
                         is HomeUiState.PasswordCompromised ->
                             binding.compromisedPasswordsCount.text = state.passwordCompromised
                         is HomeUiState.PasswordStored ->
                             binding.storedPasswordsCount.text = state.passwordStored
                         is HomeUiState.Passwords ->
                             renderPasswords(passwords = state.passwords)
+                        is HomeUiState.PasswordDetails ->
+                            findNavController().navigate(state.detailsDestination)
                     }
                 }
             }
@@ -62,7 +64,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
     private val passwordsAdapter: PasswordsAdapter by lazy {
         PasswordsAdapter(
             passwordID = { passwordID ->
-                Toast.makeText(requireContext(), passwordID.toString(), Toast.LENGTH_LONG).show()
+                viewModel.navigateToPasswordDetails(passwordID = passwordID)
             }
         )
     }

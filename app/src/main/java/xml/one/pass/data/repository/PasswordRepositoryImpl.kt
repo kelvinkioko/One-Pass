@@ -78,18 +78,26 @@ class PasswordRepositoryImpl @Inject constructor(
         phoneNumber: String,
         securityQuestions: String,
         timeUpdated: String
-    ): Boolean {
-        return passwordDao.updatePasswordDetails(
-            id = id,
-            siteName = siteName,
-            url = url,
-            userName = userName,
-            email = email,
-            password = password,
-            phoneNumber = phoneNumber,
-            securityQuestions = securityQuestions,
-            timeUpdated = timeUpdated
-        ) == 1
+    ): Flow<Resource<Boolean>> = flow {
+        val passwordExists = passwordDao.doesPasswordExistWithID(passwordId = id) == 1
+
+        if (passwordExists) {
+            val passwordUpdate = passwordDao.updatePasswordDetails(
+                id = id,
+                siteName = siteName,
+                url = url,
+                userName = userName,
+                email = email,
+                password = password,
+                phoneNumber = phoneNumber,
+                securityQuestions = securityQuestions,
+                timeUpdated = timeUpdated
+            ) == 1
+
+            emit(Resource.Success(data = passwordUpdate))
+        } else {
+            emit(Resource.Error(message = "Password doesn't exist!"))
+        }
     }
 
     override suspend fun loadPassword(): List<PasswordModel> {

@@ -27,6 +27,11 @@ class MainActivity : AppCompatActivity() {
         setUpBottomNavController()
     }
 
+    /**
+     * TODO (Data store preferences, Biometric enrollment and login)
+     * Links
+     * https://developer.android.com/guide/navigation/navigation-programmatic
+     */
     private fun setUpBottomNavController() {
         binding?.apply {
             bottomNavComponent.bottomNavigationView.background = null

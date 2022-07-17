@@ -123,6 +123,30 @@
             android:name="hasBottomNav"
             android:defaultValue="true"
             app:argType="boolean" />
+        <action
+            android:id="@+id/toPasswordDetailsFragment"
+            app:destination="@id/passwordDetailsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/passwordDetailsFragment"
+        android:name="xml.one.pass.presentation.password.details.PasswordDetailsFragment"
+        android:label="Password details fragment"
+        tools:layout="@layout/password_details_fragment" >
+        <argument
+            android:name="passwordID"
+            app:argType="integer" />
+        <action
+            android:id="@+id/toAddPasswordFragment"
+            app:destination="@id/addPasswordFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_left"
+            app:popEnterAnim="@anim/slide_in_from_left"
+            app:popExitAnim="@anim/slide_out_to_right" />
     </fragment>
 
     <fragment
@@ -136,7 +160,6 @@
             app:argType="boolean" />
     </fragment>
 
-
     <action
         android:id="@+id/toAddPasswordFragment"
         app:destination="@id/addPasswordFragment"
@@ -149,6 +172,11 @@
         android:id="@+id/addPasswordFragment"
         android:name="xml.one.pass.presentation.password.add.AddPasswordFragment"
         android:label="Add password fragment"
-        tools:layout="@layout/password_add_fragment" />
+        tools:layout="@layout/password_add_fragment" >
+        <argument
+            android:name="passwordID"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

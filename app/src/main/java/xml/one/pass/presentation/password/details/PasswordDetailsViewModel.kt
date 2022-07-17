@@ -2,6 +2,7 @@ package xml.one.pass.presentation.password.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +25,10 @@ class PasswordDetailsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<PasswordDetailsUiState>(PasswordDetailsUiState.DefaultState)
     var uiState = _uiState.asStateFlow()
 
+    private var passwordID: Int = 0
+
     fun loadPasswordDetails(passwordId: Int) {
+        this.passwordID = passwordID
         viewModelScope.launch {
             val password = withContext(Dispatchers.IO) {
                 passwordRepository.loadPasswordById(passwordId = passwordId)
@@ -51,6 +55,11 @@ class PasswordDetailsViewModel @Inject constructor(
             }.launchIn(viewModelScope)
         }
     }
+
+    fun navigateToEditPasswordDetails() {
+        val direction = PasswordDetailsFragmentDirections.toAddPasswordFragment()
+        _uiState.value = PasswordDetailsUiState.EditPasswordDetails(detailsDestination = direction)
+    }
 }
 
 sealed class PasswordDetailsUiState {
@@ -62,5 +71,10 @@ sealed class PasswordDetailsUiState {
 
     data class Error(
         val errorMessage: TextResource
+    ) : PasswordDetailsUiState()
+
+    // Navigation
+    data class EditPasswordDetails(
+        val detailsDestination: NavDirections
     ) : PasswordDetailsUiState()
 }

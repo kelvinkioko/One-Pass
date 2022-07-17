@@ -27,7 +27,7 @@ interface PasswordRepository {
         phoneNumber: String = "",
         securityQuestions: String = "",
         timeUpdated: String
-    ): Boolean
+    ): Flow<Resource<Boolean>>
 
     suspend fun loadPassword(): List<PasswordModel>
 
