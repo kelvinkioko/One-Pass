@@ -79,4 +79,5 @@
     <string name="reset_password_error">Unable to reset the password</string>
     <string name="no_profile_message">We could not find your profile. Login out and try again</string>
     <string name="no_profile">No profile</string>
+    <string name="clip_data_label">OnePassPassword</string>
 </resources>

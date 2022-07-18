@@ -16,6 +16,8 @@ import kotlinx.coroutines.launch
 import xml.one.pass.R
 import xml.one.pass.databinding.PasswordDetailsFragmentBinding
 import xml.one.pass.domain.model.PasswordModel
+import xml.one.pass.extension.copyPassword
+import xml.one.pass.extension.maskString
 import xml.one.pass.extension.viewBinding
 
 @AndroidEntryPoint
@@ -79,10 +81,21 @@ class PasswordDetailsFragment : Fragment(R.layout.password_details_fragment) {
             websiteValue.text = password.url
             userNameValue.text = password.userName
             emailAddressValue.text = password.email
-            passwordValue.text = password.password
+            passwordValue.text = password.password.maskString()
             phoneNumberValue.text = password.phoneNumber
             updatedValue.text = password.timeUpdated.asDate()
             createdValue.text = password.timeCreated.asDate()
+
+            passwordShowHideAction.setOnCheckedChangeListener { _, isChecked ->
+                passwordValue.text = if (isChecked)
+                    password.password
+                else
+                    password.password.maskString()
+            }
+
+            passwordCopyAction.setOnCheckedChangeListener { _, _ ->
+                password.password.copyPassword(context = requireContext())
+            }
         }
     }
 }

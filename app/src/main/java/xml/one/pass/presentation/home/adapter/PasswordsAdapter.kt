@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import xml.one.pass.databinding.ItemStoredPasswordBinding
 import xml.one.pass.domain.model.PasswordModel
+import xml.one.pass.extension.copyPassword
 
 class PasswordsAdapter(
     private val passwordID: (Int) -> Unit
@@ -35,6 +36,10 @@ class PasswordsAdapter(
 
                 itemView.setOnClickListener {
                     passwordID(password.id)
+                }
+
+                passwordCopyAction.setOnCheckedChangeListener { _, _ ->
+                    password.password.copyPassword(context = passwordCopyAction.context)
                 }
             }
         }
