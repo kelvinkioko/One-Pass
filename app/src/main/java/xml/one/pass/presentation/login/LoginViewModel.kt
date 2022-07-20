@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xml.one.pass.R
+import xml.one.pass.domain.preference.OnePassRepository
 import xml.one.pass.domain.repository.AccountRepository
 import xml.one.pass.util.ConstantsUtil.DELAY_TIME
 import xml.one.pass.util.TextResource
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val accountRepository: AccountRepository
+    private val accountRepository: AccountRepository,
+    private val onePassRepository: OnePassRepository
 ) : ViewModel() {
 
     private val _loginUiState = MutableStateFlow<LoginUiState>(LoginUiState.Loading())
@@ -31,6 +33,7 @@ class LoginViewModel @Inject constructor(
                     email = email,
                     password = password
                 )
+                onePassRepository.setLoginStatus(isLoggedIn = accountExists)
                 delay(DELAY_TIME)
                 withContext(Dispatchers.Main) {
                     _loginUiState.value = LoginUiState.Loading(isLoading = false)

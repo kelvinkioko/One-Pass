@@ -9,13 +9,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import xml.one.pass.R
 import xml.one.pass.databinding.ProfileFragmentBinding
 import xml.one.pass.domain.model.AccountModel
+import xml.one.pass.domain.preference.OnePassRepository
 import xml.one.pass.extension.viewBinding
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment(R.layout.profile_fragment) {
@@ -23,14 +27,29 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
     private val binding by viewBinding(ProfileFragmentBinding::bind)
     private val viewModel: ProfileViewModel by viewModels()
 
+    @Inject
+    lateinit var onePassRepository: OnePassRepository
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setUpObservers()
+        setClickListeners()
 
         binding.updateProfileAction.text = "  ${getString(R.string.update_profile)}"
         binding.masterPasswordAction.text = "  ${getString(R.string.change_master_password)}"
         binding.logoutAction.text = "  ${getString(R.string.logout)}"
+    }
+
+    private fun setClickListeners() {
+        binding.apply {
+            logoutAction.setOnClickListener {
+                runBlocking {
+                    onePassRepository.setLoginStatus(isLoggedIn = false)
+                }
+                findNavController().navigate(ProfileFragmentDirections.toLoginFragment())
+            }
+        }
     }
 
     private fun setUpObservers() {
