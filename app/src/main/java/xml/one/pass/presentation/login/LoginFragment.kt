@@ -31,11 +31,6 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val backQueue = findNavController().backQueue
-        backQueue.forEach {
-            println("BackQueue ${it.destination.displayName}")
-        }
-
         setUpOnClickListener()
         setUpObserver()
     }
