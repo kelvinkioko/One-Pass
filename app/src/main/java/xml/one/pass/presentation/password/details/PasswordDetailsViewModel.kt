@@ -2,15 +2,17 @@ package xml.one.pass.presentation.password.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavDirections
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import xml.one.pass.common.GlobalAction
 import xml.one.pass.domain.model.PasswordModel
 import xml.one.pass.domain.repository.PasswordRepository
 import xml.one.pass.util.Resource
@@ -24,6 +26,9 @@ class PasswordDetailsViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow<PasswordDetailsUiState>(PasswordDetailsUiState.DefaultState)
     var uiState = _uiState.asStateFlow()
+
+    private val _action = Channel<GlobalAction>(Channel.BUFFERED)
+    val action = _action.receiveAsFlow()
 
     private var passwordID: Int = 0
 
@@ -57,8 +62,10 @@ class PasswordDetailsViewModel @Inject constructor(
     }
 
     fun navigateToEditPasswordDetails() {
-        val direction = PasswordDetailsFragmentDirections.toAddPasswordFragment(passwordID)
-        _uiState.value = PasswordDetailsUiState.EditPasswordDetails(detailsDestination = direction)
+        viewModelScope.launch {
+            val direction = PasswordDetailsFragmentDirections.toAddPasswordFragment(passwordID)
+            _action.send(GlobalAction.Navigate(directions = direction))
+        }
     }
 }
 
@@ -71,10 +78,5 @@ sealed class PasswordDetailsUiState {
 
     data class Error(
         val errorMessage: TextResource
-    ) : PasswordDetailsUiState()
-
-    // Navigation
-    data class EditPasswordDetails(
-        val detailsDestination: NavDirections
     ) : PasswordDetailsUiState()
 }
