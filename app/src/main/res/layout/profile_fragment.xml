@@ -62,51 +62,34 @@
         app:layout_constraintTop_toBottomOf="@+id/nameValue"
         tools:text="james.smith@mail.gg" />
 
-    <TextView
+    <xml.one.pass.view.ItemAction
         android:id="@+id/updateProfileAction"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:letterSpacing="0.1"
-        android:lineSpacingMultiplier="1.3"
-        android:textColor="@color/secondary_text"
-        android:textSize="14sp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:gravity="center_vertical"
-        android:paddingVertical="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintTop_toBottomOf="@+id/emailValue"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:drawableStartCompat="@drawable/ic_symbol_write"
-        tools:text="@string/update_profile" />
+        app:ActionIcon="@drawable/ic_symbol_write"
+        app:ActionTitle="@string/update_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailValue" />
 
-    <TextView
+    <xml.one.pass.view.ItemAction
         android:id="@+id/masterPasswordAction"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:letterSpacing="0.1"
-        android:lineSpacingMultiplier="1.3"
-        android:textColor="@color/secondary_text"
-        android:textSize="14sp"
-        android:layout_marginTop="8dp"
-        android:paddingVertical="8dp"
         android:gravity="center_vertical"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@+id/updateProfileAction"
-        app:drawableStartCompat="@drawable/ic_symbol_lock"
-        tools:text="@string/change_master_password" />
+        app:ActionIcon="@drawable/ic_symbol_lock"
+        app:ActionTitle="@string/change_master_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/updateProfileAction" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/contentGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:constraint_referenced_ids="profileContainer, nameValue, emailValue, updateProfileAction, masterPasswordAction" />
 
     <ImageView
@@ -154,37 +137,28 @@
         android:id="@+id/emptyGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="emptyLogo, emptyLogoTitle, emptyLogoSubTitle" />
 
     <ImageView
         android:id="@+id/profileDivider"
         android:layout_width="30dp"
         android:layout_height="5dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@+id/emptyLogoSubTitle"
         app:srcCompat="@drawable/ic_home_indicator"
         android:contentDescription="@string/indicator" />
 
-    <TextView
+    <xml.one.pass.view.ItemAction
         android:id="@+id/logoutAction"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:letterSpacing="0.1"
-        android:lineSpacingMultiplier="1.3"
-        android:textColor="@color/secondary_text"
-        android:textSize="14sp"
-        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:paddingVertical="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guidelineStart"
-        app:layout_constraintTop_toBottomOf="@+id/profileDivider"
-        app:drawableStartCompat="@drawable/ic_symbol_logout"
-        tools:text="@string/logout" />
+        app:ActionIcon="@drawable/ic_symbol_logout"
+        app:ActionTitle="@string/logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileDivider" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineStart"

@@ -35,14 +35,18 @@ class ProfileFragment : Fragment(R.layout.profile_fragment) {
 
         setUpObservers()
         setClickListeners()
-
-        binding.updateProfileAction.text = "  ${getString(R.string.update_profile)}"
-        binding.masterPasswordAction.text = "  ${getString(R.string.change_master_password)}"
-        binding.logoutAction.text = "  ${getString(R.string.logout)}"
     }
 
     private fun setClickListeners() {
         binding.apply {
+            updateProfileAction.setOnClickListener {
+                // TODO implement profile edit logic
+            }
+
+            masterPasswordAction.setOnClickListener {
+                // TODO implement change master password logic
+            }
+
             logoutAction.setOnClickListener {
                 runBlocking {
                     onePassRepository.setLoginStatus(isLoggedIn = false)
