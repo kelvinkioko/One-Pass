@@ -66,10 +66,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 bottomNavComponent.bottomNavigationView.setupWithNavController(this)
                 bottomNavComponent.addPassword.setOnClickListener {
-                    // We'll use bundles here because it's a global action
-                    val bundle = Bundle()
-                    bundle.putSerializable("passwordID", 0)
-                    this.navigate(R.id.toAddPasswordFragment, bundle)
+                    this.navigate(R.id.toAddPasswordFragment)
                 }
                 addOnDestinationChangedListener { _, _, args ->
                     bottomNavComponent.root.isVisible =

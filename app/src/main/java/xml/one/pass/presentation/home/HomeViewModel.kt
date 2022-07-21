@@ -43,7 +43,7 @@ class HomeViewModel @Inject constructor(
                 passwordStored = passwords.size.toString()
             )
             _uiState.value = HomeUiState.PasswordCompromised(
-                passwordCompromised = "100"
+                passwordCompromised = "0"
             )
         }
     }

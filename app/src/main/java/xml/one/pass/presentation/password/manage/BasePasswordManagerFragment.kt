@@ -1,37 +1,34 @@
-package xml.one.pass.presentation.password.add
+package xml.one.pass.presentation.password.manage
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import xml.one.pass.R
 import xml.one.pass.databinding.PasswordAddFragmentBinding
+import xml.one.pass.domain.model.PasswordModel
+import xml.one.pass.extension.observeState
 import xml.one.pass.extension.viewBinding
 
 @AndroidEntryPoint
-class AddPasswordFragment : Fragment(R.layout.password_add_fragment) {
+open class BasePasswordManagerFragment(
+    @StringRes private val buttonTitle: Int,
+    @StringRes private val pageTitle: Int
+) : Fragment(R.layout.password_add_fragment) {
 
-    private val binding by viewBinding(PasswordAddFragmentBinding::bind)
-    private val viewModel: AddPasswordViewModel by viewModels()
-    private val args: AddPasswordFragmentArgs by navArgs()
+    open val binding by viewBinding(PasswordAddFragmentBinding::bind)
+    open val viewModel: BasePasswordViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.passwordID = args.passwordID
-
-        println("passwordID ${args.passwordID}")
-
+        setData()
         setToolbar()
         setUpClickListener()
         setUpObservers()
@@ -41,9 +38,16 @@ class AddPasswordFragment : Fragment(R.layout.password_add_fragment) {
         binding.toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
     }
 
+    private fun setData() {
+        binding.apply {
+            saveAction.text = getString(buttonTitle)
+            welcomeTitle.text = getString(pageTitle)
+        }
+    }
+
     private fun setUpClickListener() {
         binding.apply {
-            updateAction.setOnClickListener {
+            saveAction.setOnClickListener {
                 if (nameInput.editText?.text.toString().isEmpty())
                     nameInput.error = "Name is required!"
                 else if (passwordInput.editText?.text.toString().isEmpty())
@@ -71,45 +75,44 @@ class AddPasswordFragment : Fragment(R.layout.password_add_fragment) {
     }
 
     private fun setUpObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collectLatest { state ->
-                    when (state) {
-                        is AddPasswordUiState.Loading -> {}
-                        AddPasswordUiState.Success ->
-                            findNavController().navigateUp()
-                        is AddPasswordUiState.Error ->
-                            Snackbar.make(
-                                binding.root,
-                                state.errorMessage.asString(context = requireContext()),
-                                Snackbar.LENGTH_LONG
-                            ).show()
-                    }
-                }
+        viewModel.uiState.observeState(
+            lifecycleOwner = this,
+            lifecycleState = Lifecycle.State.STARTED
+        ) { state ->
+            when (state) {
+                BasePasswordUiState.Success -> findNavController().navigateUp()
+                is BasePasswordUiState.Loading -> Unit
+                is BasePasswordUiState.Error ->
+                    Snackbar.make(
+                        binding.root,
+                        state.errorMessage.asString(context = requireContext()),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                is BasePasswordUiState.PasswordDetails ->
+                    renderPasswordDetails(passwordDetails = state.password)
             }
+        }
+    }
+
+    private fun renderPasswordDetails(passwordDetails: PasswordModel) {
+        binding.apply {
+            nameInput.editText?.setText(passwordDetails.siteName)
+            websiteInput.editText?.setText(passwordDetails.url)
+            userNameInput.editText?.setText(passwordDetails.userName)
+            emailAddressInput.editText?.setText(passwordDetails.email)
+            passwordInput.editText?.setText(passwordDetails.password)
+            phoneNumberInput.editText?.setText(passwordDetails.phoneNumber)
         }
     }
 
     private fun setInputObservers() {
         binding.apply {
-            nameInput.editText?.doAfterTextChanged {
-                nameInput.error = null
-            }
-            websiteInput.editText?.doAfterTextChanged {
-                nameInput.error = null
-            }
-            userNameInput.editText?.doAfterTextChanged {
-                invalidateUserIdentifierError()
-            }
-            emailAddressInput.editText?.doAfterTextChanged {
-                invalidateUserIdentifierError()
-            }
-            passwordInput.editText?.doAfterTextChanged {
-                nameInput.error = null
-            }
-            phoneNumberInput.editText?.doAfterTextChanged {
-                invalidateUserIdentifierError()
-            }
+            nameInput.editText?.doAfterTextChanged { nameInput.error = null }
+            websiteInput.editText?.doAfterTextChanged { websiteInput.error = null }
+            userNameInput.editText?.doAfterTextChanged { invalidateUserIdentifierError() }
+            emailAddressInput.editText?.doAfterTextChanged { invalidateUserIdentifierError() }
+            passwordInput.editText?.doAfterTextChanged { passwordInput.error = null }
+            phoneNumberInput.editText?.doAfterTextChanged { invalidateUserIdentifierError() }
         }
     }
 

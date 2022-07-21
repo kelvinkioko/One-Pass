@@ -63,7 +63,7 @@ class PasswordDetailsViewModel @Inject constructor(
 
     fun navigateToEditPasswordDetails() {
         viewModelScope.launch {
-            val direction = PasswordDetailsFragmentDirections.toAddPasswordFragment(passwordID)
+            val direction = PasswordDetailsFragmentDirections.toEditPasswordFragment(passwordID)
             _action.send(GlobalAction.Navigate(directions = direction))
         }
     }

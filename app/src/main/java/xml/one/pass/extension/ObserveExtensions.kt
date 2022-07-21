@@ -9,6 +9,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
+/**
+ * TODO: Learn
+ * Learn more about inline functions and what is reified?
+ */
 inline fun <reified T> Flow<T>.observeState(
     lifecycleOwner: LifecycleOwner,
     lifecycleState: Lifecycle.State = Lifecycle.State.STARTED,

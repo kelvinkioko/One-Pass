@@ -141,8 +141,8 @@
             android:name="passwordID"
             app:argType="integer" />
         <action
-            android:id="@+id/toAddPasswordFragment"
-            app:destination="@id/addPasswordFragment"
+            android:id="@+id/toEditPasswordFragment"
+            app:destination="@id/editPasswordFragment"
             app:enterAnim="@anim/slide_in_from_right"
             app:exitAnim="@anim/slide_out_to_left"
             app:popEnterAnim="@anim/slide_in_from_left"
@@ -179,11 +179,17 @@
 
     <fragment
         android:id="@+id/addPasswordFragment"
-        android:name="xml.one.pass.presentation.password.add.AddPasswordFragment"
+        android:name="xml.one.pass.presentation.password.manage.add.AddPasswordFragment"
+        android:label="Add password fragment"
+        tools:layout="@layout/password_add_fragment" />
+
+    <fragment
+        android:id="@+id/editPasswordFragment"
+        android:name="xml.one.pass.presentation.password.manage.edit.EditPasswordFragment"
         android:label="Add password fragment"
         tools:layout="@layout/password_add_fragment" >
         <argument
-            android:name="passwordID"
+            android:name="passwordId"
             app:argType="integer" />
     </fragment>
 
