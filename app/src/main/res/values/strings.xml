@@ -80,4 +80,6 @@
     <string name="no_profile_message">We could not find your profile. Login out and try again</string>
     <string name="no_profile">No profile</string>
     <string name="clip_data_label">OnePassPassword</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="try_again">Try Again</string>
 </resources>

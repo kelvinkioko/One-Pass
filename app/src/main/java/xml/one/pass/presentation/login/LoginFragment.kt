@@ -1,5 +1,6 @@
 package xml.one.pass.presentation.login
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -7,15 +8,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import xml.one.pass.R
 import xml.one.pass.databinding.LoginFragmentBinding
+import xml.one.pass.extension.displayDialog
+import xml.one.pass.extension.observeState
 import xml.one.pass.extension.viewBinding
 import xml.one.pass.util.ConstantsUtil
 
@@ -24,6 +22,8 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
 
     private val binding by viewBinding(LoginFragmentBinding::bind)
     private val viewModel: LoginViewModel by viewModels()
+
+    private var dialog: Dialog? = null
 
     private var emailAddress = ""
     private var password = ""
@@ -52,22 +52,19 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     }
 
     private fun setUpObserver() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.loginUiState.collectLatest { state ->
-                    when (state) {
-                        is LoginUiState.Error ->
-                            Snackbar.make(
-                                binding.root,
-                                state.message.asString(context = requireContext()),
-                                Snackbar.LENGTH_LONG
-                            ).show()
-                        is LoginUiState.Loading ->
-                            setLoader(isLoading = state.isLoading)
-                        LoginUiState.Success ->
-                            findNavController().navigate(LoginFragmentDirections.toHomeFragment())
-                    }
+        viewModel.loginUiState.observeState(this, Lifecycle.State.STARTED) { state ->
+            when (state) {
+                is LoginUiState.Error -> {
+                    dialog = Dialog(requireContext())
+                    dialog?.displayDialog(
+                        headline = "Login error",
+                        supportingText = state.message.asString(context = requireContext())
+                    )
                 }
+                is LoginUiState.Loading ->
+                    setLoader(isLoading = state.isLoading)
+                LoginUiState.Success ->
+                    findNavController().navigate(LoginFragmentDirections.toHomeFragment())
             }
         }
     }
