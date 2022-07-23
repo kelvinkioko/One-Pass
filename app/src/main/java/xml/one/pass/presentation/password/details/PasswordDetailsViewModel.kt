@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import xml.one.pass.R
 import xml.one.pass.common.GlobalAction
 import xml.one.pass.domain.model.PasswordModel
 import xml.one.pass.domain.repository.PasswordRepository
@@ -43,7 +44,7 @@ class PasswordDetailsViewModel @Inject constructor(
                 when (resource) {
                     is Resource.Error ->
                         _uiState.value = PasswordDetailsUiState.Error(
-                            errorMessage = TextResource.DynamicString(resource.message ?: "")
+                            message = TextResource.DynamicString(resource.message ?: "")
                         )
                     is Resource.Success -> {
                         resource.data?.let { passwordModel ->
@@ -52,7 +53,7 @@ class PasswordDetailsViewModel @Inject constructor(
                             )
                         } ?: kotlin.run {
                             _uiState.value = PasswordDetailsUiState.Error(
-                                errorMessage = TextResource.DynamicString(resource.message ?: "")
+                                message = TextResource.DynamicString(resource.message ?: "")
                             )
                         }
                     }
@@ -67,6 +68,22 @@ class PasswordDetailsViewModel @Inject constructor(
             _action.send(GlobalAction.Navigate(directions = direction))
         }
     }
+
+    fun deletePasswordDetails() {
+        viewModelScope.launch {
+            val passwordDeleted = withContext(Dispatchers.IO) {
+                passwordRepository.deletePasswordByID(id = passwordID)
+            }
+
+            if (passwordDeleted) {
+                _action.send(GlobalAction.NavigateUp)
+            } else {
+                _uiState.value = PasswordDetailsUiState.Error(
+                    message = TextResource.StringResource(R.string.unable_delete)
+                )
+            }
+        }
+    }
 }
 
 sealed class PasswordDetailsUiState {
@@ -77,6 +94,6 @@ sealed class PasswordDetailsUiState {
     ) : PasswordDetailsUiState()
 
     data class Error(
-        val errorMessage: TextResource
+        val message: TextResource
     ) : PasswordDetailsUiState()
 }

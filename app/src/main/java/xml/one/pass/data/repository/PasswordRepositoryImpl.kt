@@ -134,8 +134,10 @@ class PasswordRepositoryImpl @Inject constructor(
         ) > 1
     }
 
-    override suspend fun deletePasswordByID(id: String) {
+    override suspend fun deletePasswordByID(id: Int): Boolean {
         passwordDao.deletePasswordByID(id = id)
+
+        return passwordDao.doesPasswordExistWithID(passwordId = id) == 0
     }
 
     override suspend fun deletePassword() {

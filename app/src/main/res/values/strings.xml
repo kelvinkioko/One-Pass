@@ -82,4 +82,6 @@
     <string name="clip_data_label">OnePassPassword</string>
     <string name="dismiss">Dismiss</string>
     <string name="try_again">Try Again</string>
+
+    <string name="unable_delete">Unable to delete password details. Please try again</string>
 </resources>

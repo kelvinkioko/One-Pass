@@ -41,7 +41,7 @@ interface PasswordRepository {
         password: String
     ): Boolean
 
-    suspend fun deletePasswordByID(id: String)
+    suspend fun deletePasswordByID(id: Int): Boolean
 
     suspend fun deletePassword()
 }

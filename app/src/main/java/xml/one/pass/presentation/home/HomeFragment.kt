@@ -59,6 +59,7 @@ class HomeFragment : Fragment(R.layout.home_fragment) {
         ) { action ->
             when (action) {
                 is GlobalAction.Navigate -> findNavController().navigate(action.directions)
+                else -> Unit
             }
         }
     }
