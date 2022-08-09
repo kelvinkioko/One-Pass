@@ -62,6 +62,6 @@ interface PasswordDao {
     @Query("DELETE FROM password WHERE id =:id")
     suspend fun deletePasswordByID(id: Int)
 
-    @Query("DELETE FROM account")
+    @Query("DELETE FROM password")
     suspend fun deletePassword()
 }
