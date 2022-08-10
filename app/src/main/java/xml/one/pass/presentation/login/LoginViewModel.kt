@@ -36,7 +36,7 @@ class LoginViewModel @Inject constructor(
                 onePassRepository.setLoginStatus(isLoggedIn = accountExists)
                 delay(DELAY_TIME)
                 withContext(Dispatchers.Main) {
-                    _loginUiState.value = LoginUiState.Loading(isLoading = false)
+                    _loginUiState.value = LoginUiState.Loading(isLoading = true)
                     _loginUiState.value = if (accountExists) {
                         LoginUiState.Success
                     } else {
