@@ -26,7 +26,7 @@ fun PasswordEntity.mapToPasswordModel(): PasswordModel {
  * Necessary because LocalDateTime is only available from API 26 onwards
  * we'd like to support API 21 onwards
  */
-private fun String.dateFormatter(): DateResource {
+fun String.dateFormatter(): DateResource {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         DateResource.LocalDateTimeDate(
             localDate = LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
