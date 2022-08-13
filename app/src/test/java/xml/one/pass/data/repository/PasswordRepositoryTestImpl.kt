@@ -1,6 +1,5 @@
 package xml.one.pass.data.repository
 
-import java.util.function.Predicate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import xml.one.pass.data.local.mapper.dateFormatter
@@ -8,6 +7,7 @@ import xml.one.pass.domain.model.PasswordModel
 import xml.one.pass.domain.repository.PasswordRepository
 import xml.one.pass.extension.getCurrentDate
 import xml.one.pass.util.Resource
+import java.util.function.Predicate
 
 class PasswordRepositoryTestImpl : PasswordRepository {
 
@@ -105,7 +105,7 @@ class PasswordRepositoryTestImpl : PasswordRepository {
     }
 
     override suspend fun loadPasswordById(passwordId: Int): Flow<Resource<PasswordModel>> = flow {
-        val password = passwords.find{ it.id == passwordId }
+        val password = passwords.find { it.id == passwordId }
 
         password?.let { passwordModel ->
             emit(Resource.Success(data = passwordModel))
