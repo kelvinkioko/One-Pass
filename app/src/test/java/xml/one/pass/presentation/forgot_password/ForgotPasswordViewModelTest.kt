@@ -17,6 +17,7 @@ import xml.one.pass.util.TextResource
 class ForgotPasswordViewModelTest {
 
     private lateinit var forgotPasswordViewModel: ForgotPasswordViewModel
+    private val accountRepository = AccountRepositoryTestImpl()
 
     @get:Rule
     var mainDispatcherRule = MainDispatcherRule()
@@ -26,8 +27,9 @@ class ForgotPasswordViewModelTest {
 
     @Before
     fun setup() {
+        accountRepository.createTestAccount()
         forgotPasswordViewModel = ForgotPasswordViewModel(
-            accountRepository = AccountRepositoryTestImpl()
+            accountRepository = accountRepository
         )
     }
 

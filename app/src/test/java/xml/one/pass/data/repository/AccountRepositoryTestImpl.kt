@@ -5,8 +5,10 @@ import xml.one.pass.domain.repository.AccountRepository
 
 class AccountRepositoryTestImpl : AccountRepository {
 
-    private var accountModel = mutableListOf<AccountModel>().also {
-        it.add(
+    private var accountModel = mutableListOf<AccountModel>()
+
+    fun createTestAccount() {
+        accountModel.add(
             AccountModel(
                 id = 1,
                 name = "Kelvin Kioko",

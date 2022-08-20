@@ -18,6 +18,7 @@ import xml.one.pass.util.TextResource
 class LoginViewModelTest {
 
     private lateinit var loginViewModel: LoginViewModel
+    private val accountRepository = AccountRepositoryTestImpl()
 
     @get:Rule
     var mainDispatcherRule = MainDispatcherRule()
@@ -28,9 +29,25 @@ class LoginViewModelTest {
     @Before
     fun setup() {
         loginViewModel = LoginViewModel(
-            accountRepository = AccountRepositoryTestImpl(),
+            accountRepository = accountRepository,
             onePassRepository = OnePassRepositoryTestImpl()
         )
+    }
+
+    @Test
+    fun `attempt to login with no registered accounts`() = runTest {
+        loginViewModel.login(email = "kiokokelvin@gmail.com", password = "12345678")
+
+        loginViewModel.loginUiState.test {
+            assertThat(LoginUiState.Loading(isLoading = false)).isEqualTo(awaitItem())
+            assertThat(LoginUiState.Loading(isLoading = true)).isEqualTo(awaitItem())
+            assertThat(
+                LoginUiState.Error(
+                    message = TextResource.StringResource(R.string.login_credentials_error)
+                )
+            ).isEqualTo(awaitItem())
+            cancel()
+        }
     }
 
     @Test
@@ -51,6 +68,7 @@ class LoginViewModelTest {
 
     @Test
     fun `attempt to login with valid email and password`() = runTest {
+        accountRepository.createTestAccount()
         loginViewModel.login(email = "kiokokelvin@gmail.com", password = "12345678")
 
         loginViewModel.loginUiState.test {
