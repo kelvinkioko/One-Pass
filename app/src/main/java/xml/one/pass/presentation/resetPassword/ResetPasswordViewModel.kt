@@ -1,4 +1,4 @@
-package xml.one.pass.presentation.reset_password
+package xml.one.pass.presentation.resetPassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

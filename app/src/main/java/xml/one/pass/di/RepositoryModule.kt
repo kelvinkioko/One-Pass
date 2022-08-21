@@ -19,23 +19,23 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule {
+interface RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindAccountRepository(
+    fun bindAccountRepository(
         accountRepositoryImpl: AccountRepositoryImpl
     ): AccountRepository
 
     @Binds
     @Singleton
-    abstract fun bindPasswordRepository(
+    fun bindPasswordRepository(
         passwordRepositoryImpl: PasswordRepositoryImpl
     ): PasswordRepository
 
     @Binds
     @Singleton
-    abstract fun bindOnePassRepository(
+    fun bindOnePassRepository(
         onePassRepositoryImpl: OnePassRepositoryImpl
     ): OnePassRepository
 

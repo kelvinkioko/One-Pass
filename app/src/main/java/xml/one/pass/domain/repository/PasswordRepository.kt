@@ -6,27 +6,11 @@ import xml.one.pass.util.Resource
 
 interface PasswordRepository {
     suspend fun insertPassword(
-        siteName: String,
-        url: String,
-        userName: String,
-        email: String,
-        password: String,
-        phoneNumber: String,
-        securityQuestions: String,
-        timeCreated: String,
-        timeUpdated: String
+        passwordModel: PasswordModel
     ): Flow<Resource<Boolean>>
 
     suspend fun updatePasswordDetails(
-        id: Int,
-        siteName: String,
-        url: String = "",
-        userName: String = "",
-        email: String,
-        password: String,
-        phoneNumber: String = "",
-        securityQuestions: String = "",
-        timeUpdated: String
+        passwordModel: PasswordModel
     ): Flow<Resource<Boolean>>
 
     suspend fun loadPassword(): List<PasswordModel>

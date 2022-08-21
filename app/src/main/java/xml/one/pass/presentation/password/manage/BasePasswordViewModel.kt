@@ -13,7 +13,6 @@ import kotlinx.coroutines.withContext
 import xml.one.pass.R
 import xml.one.pass.domain.model.PasswordModel
 import xml.one.pass.domain.repository.PasswordRepository
-import xml.one.pass.extension.getCurrentDate
 import xml.one.pass.util.Resource
 import xml.one.pass.util.TextResource
 import javax.inject.Inject
@@ -64,56 +63,20 @@ class BasePasswordViewModel @Inject constructor(
     }
 
     fun savePassword(
-        siteName: String = "",
-        url: String = "",
-        userName: String = "",
-        email: String = "",
-        password: String = "",
-        phoneNumber: String = ""
+        passwordModel: PasswordModel
     ) {
         if (passwordId == 0) {
-            createPassword(
-                siteName = siteName,
-                url = url,
-                userName = userName,
-                email = email,
-                password = password,
-                phoneNumber = phoneNumber
-            )
+            createPassword(passwordModel = passwordModel)
         } else {
-            updatePassword(
-                siteName = siteName,
-                url = url,
-                userName = userName,
-                email = email,
-                password = password,
-                phoneNumber = phoneNumber
-            )
+            updatePassword(passwordModel = passwordModel)
         }
     }
 
-    private fun updatePassword(
-        siteName: String,
-        url: String,
-        userName: String,
-        email: String,
-        password: String,
-        phoneNumber: String
-    ) {
+    private fun updatePassword(passwordModel: PasswordModel) {
         viewModelScope.launch {
             _uiState.value = BasePasswordUiState.Loading(isLoading = true)
             val status = withContext(Dispatchers.IO) {
-                passwordRepository.updatePasswordDetails(
-                    id = passwordId,
-                    siteName = siteName,
-                    url = url,
-                    userName = userName,
-                    email = email,
-                    password = password,
-                    phoneNumber = phoneNumber,
-                    securityQuestions = "",
-                    timeUpdated = getCurrentDate()
-                )
+                passwordRepository.updatePasswordDetails(passwordModel = passwordModel)
             }
 
             _uiState.value = BasePasswordUiState.Loading(isLoading = false)
@@ -138,28 +101,11 @@ class BasePasswordViewModel @Inject constructor(
         }
     }
 
-    private fun createPassword(
-        siteName: String = "",
-        url: String = "",
-        userName: String = "",
-        email: String = "",
-        password: String = "",
-        phoneNumber: String = ""
-    ) {
+    private fun createPassword(passwordModel: PasswordModel) {
         viewModelScope.launch {
             _uiState.value = BasePasswordUiState.Loading(isLoading = true)
             val status = withContext(Dispatchers.IO) {
-                passwordRepository.insertPassword(
-                    siteName = siteName,
-                    url = url,
-                    userName = userName,
-                    email = email,
-                    password = password,
-                    phoneNumber = phoneNumber,
-                    securityQuestions = "",
-                    timeCreated = getCurrentDate(),
-                    timeUpdated = getCurrentDate()
-                )
+                passwordRepository.insertPassword(passwordModel = passwordModel)
             }
 
             _uiState.value = BasePasswordUiState.Loading(isLoading = false)

@@ -67,7 +67,10 @@ class RegisterViewModelTest {
             Truth.assertThat(RegisterUiState.Loading(isLoading = true)).isEqualTo(awaitItem())
             Truth.assertThat(
                 RegisterUiState.Error(
-                    message = TextResource.DynamicString("An account already exists with the email ${accountRepository.loadAccount()?.email}. Proceed to login.")
+                    message = TextResource.DynamicString(
+                        "An account already exists with " +
+                            "the email ${accountRepository.loadAccount()?.email}. Proceed to login."
+                    )
                 )
             ).isEqualTo(awaitItem())
             cancel()

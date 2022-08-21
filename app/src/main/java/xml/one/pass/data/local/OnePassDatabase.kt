@@ -15,8 +15,4 @@ abstract class OnePassDatabase : RoomDatabase() {
 
     abstract fun accountDao(): AccountDao
     abstract fun passwordDao(): PasswordDao
-
-    companion object {
-        // TODO: Handle migrations here
-    }
 }

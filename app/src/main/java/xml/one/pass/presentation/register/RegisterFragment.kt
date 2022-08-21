@@ -16,7 +16,9 @@ import kotlinx.coroutines.launch
 import xml.one.pass.R
 import xml.one.pass.databinding.RegisterFragmentBinding
 import xml.one.pass.extension.viewBinding
+import xml.one.pass.util.ConstantsUtil
 import xml.one.pass.util.ConstantsUtil.EMAIL_REGEX
+import xml.one.pass.util.ConstantsUtil.NAME_LENGTH_MINIMUM_LIMIT
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment(R.layout.register_fragment) {
@@ -89,8 +91,8 @@ class RegisterFragment : Fragment(R.layout.register_fragment) {
             passwordInput.editText?.doAfterTextChanged {
                 password = if (it.isNullOrEmpty()) "" else it.toString()
 
-                passwordInput.error = if (password.length < 8) "Password limit is 8 characters"
-                else null
+                passwordInput.error = if (password.length < ConstantsUtil.PASSWORD_LENGTH_LIMIT)
+                    "Password limit is 8 characters" else null
                 validateInputs()
             }
         }
@@ -98,9 +100,9 @@ class RegisterFragment : Fragment(R.layout.register_fragment) {
 
     private fun validateInputs() {
         binding.apply {
-            val nameValidation = name.length > 3 && name.contains(" ")
+            val nameValidation = name.length > NAME_LENGTH_MINIMUM_LIMIT && name.contains(" ")
             val emailValidation = EMAIL_REGEX.toRegex().matches(emailAddress)
-            val passwordValidation = password.length >= 8
+            val passwordValidation = password.length >= ConstantsUtil.PASSWORD_LENGTH_LIMIT
 
             registerAction.isEnabled = nameValidation && emailValidation && passwordValidation
         }

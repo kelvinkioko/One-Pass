@@ -9,6 +9,8 @@ import androidx.navigation.fragment.findNavController
 import xml.one.pass.R
 import xml.one.pass.databinding.WelcomeFragmentBinding
 import xml.one.pass.extension.viewBinding
+import xml.one.pass.util.ConstantsUtil.OXFFFFFF
+import java.util.Locale
 
 class WelcomeFragment : Fragment(R.layout.welcome_fragment) {
 
@@ -103,7 +105,8 @@ class WelcomeFragment : Fragment(R.layout.welcome_fragment) {
         "<font color=$color>$text</font>"
 
     private fun getHexColor(): String = String.format(
+        Locale.getDefault(),
         "#%06X",
-        0xFFFFFF and ContextCompat.getColor(requireContext(), R.color.brand_color)
+        OXFFFFFF and ContextCompat.getColor(requireContext(), R.color.brand_color)
     )
 }
