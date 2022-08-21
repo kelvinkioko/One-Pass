@@ -83,7 +83,7 @@
 
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="xml.one.pass.presentation.forgot_password.ForgotPasswordFragment"
+        android:name="xml.one.pass.presentation.forgotPassword.ForgotPasswordFragment"
         android:label="Forgot password fragment"
         tools:layout="@layout/forgot_password_fragment" >
         <action
@@ -97,7 +97,7 @@
 
     <fragment
         android:id="@+id/resetPasswordFragment"
-        android:name="xml.one.pass.presentation.reset_password.ResetPasswordFragment"
+        android:name="xml.one.pass.presentation.resetPassword.ResetPasswordFragment"
         android:label="Reset password fragment"
         tools:layout="@layout/reset_password_fragment" >
         <argument

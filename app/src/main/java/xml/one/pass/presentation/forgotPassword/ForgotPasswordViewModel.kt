@@ -1,4 +1,4 @@
-package xml.one.pass.presentation.forgot_password
+package xml.one.pass.presentation.forgotPassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xml.one.pass.R
 import xml.one.pass.domain.repository.AccountRepository
+import xml.one.pass.util.ConstantsUtil.DELAY_TIME_2000
 import xml.one.pass.util.TextResource
 import javax.inject.Inject
 
@@ -28,7 +29,7 @@ class ForgotPasswordViewModel @Inject constructor(
         viewModelScope.launch {
             _forgotPasswordUiState.value = ForgotPasswordUiState.Loading(isLoading = true)
             withContext(Dispatchers.IO) {
-                delay(2000)
+                delay(DELAY_TIME_2000)
                 val accountExists = accountRepository.doesAccountExistWithEmail(email = email)
                 withContext(Dispatchers.Main) {
                     _forgotPasswordUiState.value = ForgotPasswordUiState.Loading(isLoading = false)

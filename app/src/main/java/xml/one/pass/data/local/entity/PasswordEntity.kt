@@ -24,7 +24,7 @@ data class PasswordEntity(
     @ColumnInfo(name = "security_questions")
     val securityQuestions: String = "",
     @ColumnInfo(name = "time_created")
-    val timeCreated: String,
+    val timeCreated: String = "",
     @ColumnInfo(name = "time_updated")
     val timeUpdated: String
 )

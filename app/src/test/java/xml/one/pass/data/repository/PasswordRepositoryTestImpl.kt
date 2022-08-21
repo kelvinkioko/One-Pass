@@ -120,7 +120,11 @@ class PasswordRepositoryTestImpl : PasswordRepository {
         email: String,
         phoneNumber: String,
         password: String
-    ): Boolean = passwords.any { it.siteName == siteName && (it.userName == userName || it.email == email || it.phoneNumber == phoneNumber) && it.password == password }
+    ): Boolean = passwords.any {
+        it.siteName == siteName &&
+            (it.userName == userName || it.email == email || it.phoneNumber == phoneNumber) &&
+            it.password == password
+    }
 
     override suspend fun deletePasswordByID(id: Int): Boolean {
         val condition = Predicate<PasswordModel> { it.id == id }

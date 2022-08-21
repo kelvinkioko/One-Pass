@@ -33,6 +33,19 @@ class PasswordDaoTests {
         timeUpdated = getCurrentDate()
     )
 
+    private val passwordUpdateEntity = PasswordEntity(
+        id = 1,
+        siteName = "Facebook",
+        url = "www.facebook.com",
+        userName = "nameuser",
+        email = "nameuser@email.com",
+        password = "123456",
+        phoneNumber = "+254700000000",
+        securityQuestions = "",
+        timeCreated = passwordEntity.timeCreated,
+        timeUpdated = getCurrentDate()
+    )
+
     @Before
     fun setup() {
         onePassDatabase = Room.inMemoryDatabaseBuilder(
@@ -55,6 +68,19 @@ class PasswordDaoTests {
     }
 
     @Test
+    fun updatePasswordDetailsByConflict() {
+        runBlocking {
+            passwordDao.insertPassword(passwordEntity = passwordEntity)
+            passwordDao.insertPassword(passwordEntity = passwordUpdateEntity)
+
+            val passwords = passwordDao.loadPassword()
+
+            assertThat(passwords).doesNotContain(passwordEntity)
+            assertThat(passwords).contains(passwordUpdateEntity)
+        }
+    }
+
+    @Test
     fun updatePasswordDetails() {
         runBlocking {
             passwordDao.insertPassword(passwordEntity = passwordEntity)
@@ -73,6 +99,7 @@ class PasswordDaoTests {
             val passwords = passwordDao.loadPassword()
 
             assertThat(passwords).doesNotContain(passwordEntity)
+            assertThat(passwords).contains(passwordUpdateEntity)
         }
     }
 

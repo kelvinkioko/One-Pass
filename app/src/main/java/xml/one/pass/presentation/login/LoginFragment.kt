@@ -16,6 +16,7 @@ import xml.one.pass.extension.displayDialog
 import xml.one.pass.extension.observeState
 import xml.one.pass.extension.viewBinding
 import xml.one.pass.util.ConstantsUtil
+import xml.one.pass.util.ConstantsUtil.PASSWORD_LENGTH_LIMIT
 
 @AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.login_fragment) {
@@ -83,8 +84,8 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             passwordInput.editText?.doAfterTextChanged {
                 password = if (it.isNullOrEmpty()) "" else it.toString()
 
-                passwordInput.error = if (password.length < 8) "Password limit is 8 characters"
-                else null
+                passwordInput.error = if (password.length < PASSWORD_LENGTH_LIMIT)
+                    "Password limit is 8 characters" else null
                 validateInputs()
             }
         }
@@ -93,7 +94,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
     private fun validateInputs() {
         binding.apply {
             val emailValidation = ConstantsUtil.EMAIL_REGEX.toRegex().matches(emailAddress)
-            val passwordValidation = password.length >= 8
+            val passwordValidation = password.length >= PASSWORD_LENGTH_LIMIT
 
             signInAction.isEnabled = emailValidation && passwordValidation
         }

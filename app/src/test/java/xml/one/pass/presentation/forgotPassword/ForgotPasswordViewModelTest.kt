@@ -1,4 +1,4 @@
-package xml.one.pass.presentation.forgot_password
+package xml.one.pass.presentation.forgotPassword
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test

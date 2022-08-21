@@ -11,8 +11,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import xml.one.pass.R
+import xml.one.pass.data.local.mapper.dateFormatter
 import xml.one.pass.databinding.PasswordAddFragmentBinding
 import xml.one.pass.domain.model.PasswordModel
+import xml.one.pass.extension.getCurrentDate
 import xml.one.pass.extension.observeState
 import xml.one.pass.extension.viewBinding
 
@@ -62,12 +64,16 @@ open class BasePasswordManagerFragment(
                     phoneNumberInput.error = "Email/username/phone number is required!"
                 } else {
                     viewModel.savePassword(
-                        siteName = nameInput.editText?.text.toString().trim(),
-                        url = websiteInput.editText?.text.toString().trim(),
-                        userName = userNameInput.editText?.text.toString().trim(),
-                        email = emailAddressInput.editText?.text.toString().trim(),
-                        password = passwordInput.editText?.text.toString().trim(),
-                        phoneNumber = phoneNumberInput.editText?.text.toString().trim()
+                        passwordModel = PasswordModel(
+                            siteName = nameInput.editText?.text.toString().trim(),
+                            url = websiteInput.editText?.text.toString().trim(),
+                            userName = userNameInput.editText?.text.toString().trim(),
+                            email = emailAddressInput.editText?.text.toString().trim(),
+                            password = passwordInput.editText?.text.toString().trim(),
+                            phoneNumber = phoneNumberInput.editText?.text.toString().trim(),
+                            timeCreated = getCurrentDate().dateFormatter(),
+                            timeUpdated = getCurrentDate().dateFormatter()
+                        )
                     )
                 }
             }

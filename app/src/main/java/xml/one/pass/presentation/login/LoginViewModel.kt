@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 import xml.one.pass.R
 import xml.one.pass.domain.preference.OnePassRepository
 import xml.one.pass.domain.repository.AccountRepository
-import xml.one.pass.util.ConstantsUtil.DELAY_TIME
+import xml.one.pass.util.ConstantsUtil.DELAY_TIME_1000
 import xml.one.pass.util.TextResource
 import javax.inject.Inject
 
@@ -34,7 +34,7 @@ class LoginViewModel @Inject constructor(
                     password = password
                 )
                 onePassRepository.setLoginStatus(isLoggedIn = accountExists)
-                delay(DELAY_TIME)
+                delay(DELAY_TIME_1000)
                 withContext(Dispatchers.Main) {
                     _loginUiState.value = LoginUiState.Loading(isLoading = true)
                     _loginUiState.value = if (accountExists) {

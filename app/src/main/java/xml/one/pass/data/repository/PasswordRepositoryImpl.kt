@@ -3,7 +3,7 @@ package xml.one.pass.data.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import xml.one.pass.data.local.OnePassDatabase
-import xml.one.pass.data.local.entity.PasswordEntity
+import xml.one.pass.data.local.mapper.asPasswordEntity
 import xml.one.pass.data.local.mapper.mapToPasswordModel
 import xml.one.pass.domain.model.PasswordModel
 import xml.one.pass.domain.repository.PasswordRepository
@@ -19,49 +19,29 @@ class PasswordRepositoryImpl @Inject constructor(
     private val passwordDao = onePassDatabase.passwordDao()
 
     override suspend fun insertPassword(
-        siteName: String,
-        url: String,
-        userName: String,
-        email: String,
-        password: String,
-        phoneNumber: String,
-        securityQuestions: String,
-        timeCreated: String,
-        timeUpdated: String
+        passwordModel: PasswordModel
     ): Flow<Resource<Boolean>> = flow {
         val passwordExists = passwordDao.doesPasswordExist(
-            siteName = siteName,
-            userName = userName,
-            email = email,
-            phoneNumber = phoneNumber,
-            password = password
+            siteName = passwordModel.siteName,
+            userName = passwordModel.userName,
+            email = passwordModel.email,
+            phoneNumber = passwordModel.phoneNumber,
+            password = passwordModel.password
         ) > 0
 
         if (passwordExists) {
             emit(Resource.Error(message = "Password exists!"))
         } else {
-            passwordDao.insertPassword(
-                passwordEntity = PasswordEntity(
-                    siteName = siteName,
-                    url = url,
-                    userName = userName,
-                    email = email,
-                    password = password,
-                    phoneNumber = phoneNumber,
-                    securityQuestions = securityQuestions,
-                    timeCreated = timeCreated,
-                    timeUpdated = timeUpdated
-                )
-            )
+            passwordDao.insertPassword(passwordEntity = passwordModel.asPasswordEntity())
 
             emit(
                 Resource.Success(
                     data = passwordDao.doesPasswordExist(
-                        siteName = siteName,
-                        userName = userName,
-                        email = email,
-                        phoneNumber = phoneNumber,
-                        password = password
+                        siteName = passwordModel.siteName,
+                        userName = passwordModel.userName,
+                        email = passwordModel.email,
+                        phoneNumber = passwordModel.phoneNumber,
+                        password = passwordModel.password
                     ) > 0
                 )
             )
@@ -69,32 +49,24 @@ class PasswordRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updatePasswordDetails(
-        id: Int,
-        siteName: String,
-        url: String,
-        userName: String,
-        email: String,
-        password: String,
-        phoneNumber: String,
-        securityQuestions: String,
-        timeUpdated: String
+        passwordModel: PasswordModel
     ): Flow<Resource<Boolean>> = flow {
-        val passwordExists = passwordDao.doesPasswordExistWithID(passwordId = id) == 1
+        val passwordExists = passwordDao.doesPasswordExistWithID(passwordId = passwordModel.id) == 1
 
         if (passwordExists) {
-            val passwordUpdate = passwordDao.updatePasswordDetails(
-                id = id,
-                siteName = siteName,
-                url = url,
-                userName = userName,
-                email = email,
-                password = password,
-                phoneNumber = phoneNumber,
-                securityQuestions = securityQuestions,
-                timeUpdated = timeUpdated
-            ) == 1
+            passwordDao.insertPassword(passwordModel.asPasswordEntity())
 
-            emit(Resource.Success(data = passwordUpdate))
+            emit(
+                Resource.Success(
+                    data = passwordDao.doesPasswordExist(
+                        siteName = passwordModel.siteName,
+                        userName = passwordModel.userName,
+                        email = passwordModel.email,
+                        phoneNumber = passwordModel.phoneNumber,
+                        password = passwordModel.password
+                    ) > 0
+                )
+            )
         } else {
             emit(Resource.Error(message = "Password doesn't exist!"))
         }
