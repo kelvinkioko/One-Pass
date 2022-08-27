@@ -7,8 +7,7 @@
 
 **One Pass** is a *add extra description on the project*
 
-![screenshot](/screenshots/welcome.jpg "Welcome")
-![screenshot](/screenshots/register.jpg "Register")
+![screenshot](/screenshots/welcome.jpg "Welcome")       ![screenshot](/screenshots/register.jpg "Register")
 ![screenshot](/screenshots/login.jpg "login")
 ![screenshot](/screenshots/homepage.jpg "Home Page")
 ![screenshot](/screenshots/password_details.jpg "Password Details")
