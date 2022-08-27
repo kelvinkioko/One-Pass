@@ -32,7 +32,15 @@ class PasswordsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(password: PasswordModel) {
             binding.apply {
+                logoContainer.text = password.siteName[0].toString()
+
                 storedPasswordsSubTitle.text = password.siteName
+                storedPasswordsUsername.text = if (password.userName.isNotEmpty())
+                    password.userName
+                else if (password.email.isNotEmpty())
+                    password.email
+                else
+                    password.phoneNumber
 
                 itemView.setOnClickListener {
                     passwordID(password.id)

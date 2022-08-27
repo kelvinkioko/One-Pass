@@ -68,7 +68,7 @@ class BasePasswordViewModel @Inject constructor(
         if (passwordId == 0) {
             createPassword(passwordModel = passwordModel)
         } else {
-            updatePassword(passwordModel = passwordModel)
+            updatePassword(passwordModel = passwordModel.also { it.id = passwordId })
         }
     }
 
