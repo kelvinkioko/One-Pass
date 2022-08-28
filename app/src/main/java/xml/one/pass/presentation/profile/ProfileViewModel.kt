@@ -24,7 +24,7 @@ class ProfileViewModel @Inject constructor(
         setUpProfilePage()
     }
 
-    private fun setUpProfilePage() {
+    fun setUpProfilePage() {
         viewModelScope.launch {
             val account = withContext(Dispatchers.IO) { accountRepository.loadAccount() }
 

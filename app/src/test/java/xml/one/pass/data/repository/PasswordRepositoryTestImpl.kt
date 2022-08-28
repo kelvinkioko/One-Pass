@@ -2,14 +2,33 @@ package xml.one.pass.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import xml.one.pass.data.local.mapper.dateFormatter
 import xml.one.pass.domain.model.PasswordModel
 import xml.one.pass.domain.repository.PasswordRepository
+import xml.one.pass.extension.getCurrentDate
 import xml.one.pass.util.Resource
 import java.util.function.Predicate
 
 class PasswordRepositoryTestImpl : PasswordRepository {
 
-    private var passwords = mutableListOf<PasswordModel>()
+    var passwords = mutableListOf<PasswordModel>()
+
+    fun createTestPassword() {
+        passwords.add(
+            PasswordModel(
+                id = 1,
+                siteName = "Sample Site",
+                url = "https://www.sample.com",
+                userName = "sample",
+                email = "sample@mail.com",
+                password = "12345678",
+                phoneNumber = "(+254) 720 000 000",
+                securityQuestions = "",
+                timeCreated = getCurrentDate().dateFormatter(),
+                timeUpdated = getCurrentDate().dateFormatter()
+            )
+        )
+    }
 
     override suspend fun insertPassword(passwordModel: PasswordModel):
         Flow<Resource<Boolean>> = flow {

@@ -33,6 +33,10 @@ class PasswordDetailsViewModel @Inject constructor(
 
     private var passwordID: Int = 0
 
+    fun setPasswordID(passwordId: Int) {
+        this.passwordID = passwordId
+    }
+
     fun loadPasswordDetails(passwordId: Int) {
         this.passwordID = passwordId
         viewModelScope.launch {
