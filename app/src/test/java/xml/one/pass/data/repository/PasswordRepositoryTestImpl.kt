@@ -13,21 +13,21 @@ class PasswordRepositoryTestImpl : PasswordRepository {
 
     var passwords = mutableListOf<PasswordModel>()
 
-    fun createTestPassword() {
-        passwords.add(
-            PasswordModel(
-                id = 1,
-                siteName = "Sample Site",
-                url = "https://www.sample.com",
-                userName = "sample",
-                email = "sample@mail.com",
-                password = "12345678",
-                phoneNumber = "(+254) 720 000 000",
-                securityQuestions = "",
-                timeCreated = getCurrentDate().dateFormatter(),
-                timeUpdated = getCurrentDate().dateFormatter()
-            )
-        )
+    private val passwordModel = PasswordModel(
+        id = 1,
+        siteName = "Sample Site",
+        url = "https://www.sample.com",
+        userName = "sample",
+        email = "sample@mail.com",
+        password = "12345678",
+        phoneNumber = "(+254) 720 000 000",
+        securityQuestions = "",
+        timeCreated = getCurrentDate().dateFormatter(),
+        timeUpdated = getCurrentDate().dateFormatter()
+    )
+
+    fun createTestPassword(password: PasswordModel = passwordModel) {
+        passwords.add(password)
     }
 
     override suspend fun insertPassword(passwordModel: PasswordModel):

@@ -112,19 +112,21 @@ class BasePasswordViewModelTest {
 
     @Test
     fun `update an existing password`() = runTest {
+        passwordRepository.createTestPassword(password = passwordModel)
         basePasswordViewModel.savePassword(passwordModel = passwordModel.also { it.id = 1 })
 
         basePasswordViewModel.uiState.test {
-            Truth.assertThat(BasePasswordUiState.Loading()).isEqualTo(awaitItem())
-            Truth.assertThat(BasePasswordUiState.Loading(isLoading = true)).isEqualTo(awaitItem())
-            Truth.assertThat(BasePasswordUiState.Loading()).isEqualTo(awaitItem())
-            Truth.assertThat(BasePasswordUiState.Success).isEqualTo(awaitItem())
+            Truth.assertThat(awaitItem()).isEqualTo(BasePasswordUiState.Loading())
+            Truth.assertThat(awaitItem()).isEqualTo(BasePasswordUiState.Loading(isLoading = true))
+            Truth.assertThat(awaitItem()).isEqualTo(BasePasswordUiState.Loading())
+            Truth.assertThat(awaitItem()).isEqualTo(BasePasswordUiState.Success)
             cancel()
         }
     }
 
     @Test
     fun `update an existing password with a non existing ID`() = runTest {
+        passwordRepository.createTestPassword()
         basePasswordViewModel.setPassword(passwordId = -1)
         basePasswordViewModel.savePassword(passwordModel = passwordModel)
 
